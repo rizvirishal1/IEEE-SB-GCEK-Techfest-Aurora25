@@ -4,7 +4,7 @@ import { Navigate } from 'react-router';
 import { Route } from 'react-router';
 import { Routes } from 'react-router';
 //pages
-import Home from './pages/Home';
+import Home from './pages/home/Home.js';
 //styles
 import './App.css';
 
