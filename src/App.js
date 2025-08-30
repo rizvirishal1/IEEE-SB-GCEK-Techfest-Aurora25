@@ -1,5 +1,6 @@
 //imports...
 import { BrowserRouter } from 'react-router';
+import Layout from "./layout/Layout";
 import { Navigate } from 'react-router';
 import { Route } from 'react-router';
 import { Routes } from 'react-router';
@@ -13,8 +14,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/home" element={<Layout><Home /></Layout>} />
+          <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </BrowserRouter>
     </div>
