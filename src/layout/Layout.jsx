@@ -1,7 +1,9 @@
 //imports…
-import Navbar from "../components/navbar/Navbar"
 import { useEffect } from "react";
 import { useState } from "react";
+//components
+import Footer from "../components/footer/Footer"
+import Navbar from "../components/navbar/Navbar"
 //icons
 import upArrow from "../assets/icons/uparrow.svg"
 //styles
@@ -35,8 +37,11 @@ export default function Layout(props) {
 
     return (
         <div className={styles.layout}>
-            <Navbar />
-            <div >{props.children}</div>
+            <div className={styles.top}>
+                <Navbar />
+                <div >{props.children}</div>
+            </div>
+            <Footer />
 
             {
                 isVisible &&

@@ -1,0 +1,50 @@
+.navbar {
+
+    background-color: aqua;
+    position: fixed;
+    margin-top: 10px;
+    width: 98%;
+    justify-self: center;
+    border-radius: 35px;
+
+    height: 80px;
+    backdrop-filter: blur(20px);
+    background: rgba(0, 255, 255, 0.1);
+    box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.items {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height: 100%;
+    padding-right: 60px;
+    gap: 40px;
+
+    span {
+        cursor: pointer;
+        padding: 10px 25px;
+        font-size: 23px;
+        font-weight: 500;
+
+
+        @media (max-width: 768px) {
+            display: none;
+        }
+
+    }
+
+
+
+}
+
+.active {
+    border-radius: 35px;
+    backdrop-filter: blur(20px);
+    background: rgba(238, 227, 5, 0.5);
+    box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: black;
+    text-decoration: underline;
+}
