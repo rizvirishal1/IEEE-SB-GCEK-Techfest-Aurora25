@@ -1,0 +1,26 @@
+.about {
+    margin-top: 150px;
+    text-align: center;
+    overflow-x: hidden;
+
+
+    p {
+        padding-right: 50px;
+        padding-left: 50px;
+        text-align: justify;
+    }
+
+
+}
+
+.squareDecoration {
+    width: 200px;
+    height: 200px;
+    background-color: aqua;
+    border-radius: 50px;
+    box-shadow: 0 0 10px 10px aqua;
+    position: absolute;
+    transform: rotate(45deg) translateY(-100px) translateX(-150px);
+    z-index: -1;
+
+}

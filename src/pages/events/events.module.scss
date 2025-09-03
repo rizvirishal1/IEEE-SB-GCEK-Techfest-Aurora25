@@ -1,0 +1,61 @@
+.events {
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.eventList {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 50px;
+
+
+
+}
+
+.searchInput {
+    min-width: 250px;
+    height: 40px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+.filter {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-height: 50px;
+    background-color: aquamarine;
+    padding-left: 40px;
+
+    span {
+        padding: 10px;
+        cursor: pointer;
+
+    }
+
+}
+
+.filterIcon {
+    width: 30px;
+    cursor: pointer;
+}
+
+.activeFilter {
+    color: rgb(85, 29, 225);
+    background-color: violet;
+    border-radius: 15px;
+    transition: all 0.5s ease;
+}
