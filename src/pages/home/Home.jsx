@@ -1,15 +1,23 @@
 //imports…
 import background from "../../assets/images/background.svg"
 import highlightsImage from "../../assets/images/highlights.png"
+import { useNavigate } from "react-router"
 //styles
 import styles from "./home.module.scss"
 
 export default function Home() {
+    const navigate = useNavigate();
 
     return (
         <div className={styles.home}>
             <img className={styles.background} src={background} alt="background" />
             <h1 className={styles.title}>State Level Techfest</h1>
+            <button
+                className={styles.registerButton}
+                onClick={() => navigate("/register")}
+            >
+                Register Now
+            </button>
             <span className={styles.date}>GCE KANNUR <br /> 24th - 26th September 2025</span>
             <div className={styles.highlights}>
                 <h2 className={styles.subtitle}>Event Highlights</h2>
