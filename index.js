@@ -7,6 +7,8 @@ import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import path from 'path';
 //routers
+import registerRouter from './routes/register.js';
+import verifyMobileRouter from './routes/verify-mobile.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -18,6 +20,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "dist")));
 
 //using the routers
+app.use('/api/verify-mobile', verifyMobileRouter);
+app.use('/api/register', registerRouter);
 
 //serving index.html for get request to non existing routes
 app.get(/\/(.*)/, function (req, res) {
