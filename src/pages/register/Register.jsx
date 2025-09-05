@@ -58,10 +58,12 @@ export default function Register() {
 
         if (!isMobileVerified) {
             toast.error("Please verify your mobile number before registering.");
+            setIsSubmitting(false);
             return;
         }
         if (formData.password !== formData["re-password"]) {
             toast.error("Passwords do not match.");
+            setIsSubmitting(false);
             return;
         }
 
