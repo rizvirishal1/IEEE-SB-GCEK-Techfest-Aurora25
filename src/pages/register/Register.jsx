@@ -116,7 +116,7 @@ export default function Register() {
     return (
         <div className={styles.register}>
             <h1>Register Page</h1>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={handleSubmit}>
                 <div className={styles.formItems}>
                     <label htmlFor="name">Name:</label>
                     <input
@@ -208,7 +208,6 @@ export default function Register() {
                 <div className={styles.formItems}>
                     <button type="submit"
                         className={styles.registerButton}
-                        onClick={handleSubmit}
                         disabled={isSubmitting}
                     >{isSubmitting ? "Registering..." : "Register"}</button>
                 </div>

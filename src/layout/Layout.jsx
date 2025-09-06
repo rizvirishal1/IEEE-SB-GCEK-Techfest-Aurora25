@@ -9,27 +9,28 @@ import upArrow from "../assets/icons/uparrow.svg"
 //styles
 import styles from "./layout.module.scss"
 
-// Custom hook for scroll visibility
-const useScrollVisibility = (threshold = 300) => {
-    const [isVisible, setIsVisible] = useState(false);
-
-    useEffect(() => {
-        const toggleVisibility = () => {
-            setIsVisible(window.pageYOffset > threshold);
-        };
-
-        window.addEventListener('scroll', toggleVisibility);
-
-        return () => window.removeEventListener('scroll', toggleVisibility);
-    }, [threshold]);
-
-    return isVisible;
-};
 
 export default function Layout(props) {
+
+    // Custom hook for scroll visibility
+    const useScrollVisibility = (threshold = 300) => {
+        const [isVisible, setIsVisible] = useState(false);
+
+        useEffect(() => {
+            const toggleVisibility = () => {
+                setIsVisible(window.pageYOffset > threshold);
+            };
+
+            window.addEventListener('scroll', toggleVisibility);
+
+            return () => window.removeEventListener('scroll', toggleVisibility);
+        }, [threshold]);
+
+        return isVisible;
+    };
+
     //variables
     const isVisible = useScrollVisibility(300);
-
 
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });

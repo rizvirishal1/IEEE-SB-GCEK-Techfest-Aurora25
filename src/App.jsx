@@ -11,7 +11,9 @@ import About from './pages/about/About.jsx';
 import Events from './pages/events/Events.jsx';
 import EventDetails from './pages/event-details/EventDetails.jsx';
 import Home from './pages/home/Home.jsx';
+import Login from './pages/login/Login.jsx';
 import Register from './pages/register/Register.jsx';
+import UserDashboard from './pages/user-dashboard/UserDashboard.jsx';
 //styles
 import './App.css';
 
@@ -28,6 +30,8 @@ function App() {
           <Route path="/events" element={<Layout><Events /></Layout>} />
           <Route path="/event-details/:id" element={<Layout><EventDetails /></Layout>} />
           <Route path="/register" element={<Layout><Register /></Layout>} />
+          <Route path="/login" element={<Layout><Login /></Layout>} />
+          <Route path="/user-dashboard" element={<Layout><UserDashboard /></Layout>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>

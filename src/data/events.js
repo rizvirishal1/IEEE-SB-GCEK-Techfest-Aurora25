@@ -8,7 +8,11 @@ const events = [
         venue: "Online",
         type: "pre",
         description: "Description for Event 1",
-        imageUrl: eventImg
+        imageUrl: eventImg,
+        price: "Free",
+        priceForIeeeMembers: "Free",
+        date: "2024-10-15",
+        time: "10:00 AM - 12:00 PM",
     },
     {
         id: "2",
@@ -16,7 +20,11 @@ const events = [
         venue: "GCEK",
         type: "main",
         description: "Description for Event 2",
-        imageUrl: eventImg
+        imageUrl: eventImg,
+        price: "300",
+        priceForIeeeMembers: "100",
+        date: "2024-10-16",
+        time: "01:00 PM - 03:00 PM",
     },
     {
         id: "3",
@@ -24,7 +32,11 @@ const events = [
         venue: "GCEK Auditorium",
         type: "main",
         description: "Description for Event 3",
-        imageUrl: eventImg
+        imageUrl: eventImg,
+        price: "300",
+        priceForIeeeMembers: "100",
+        date: "2024-10-17",
+        time: "09:00 AM - 11:00 AM",
     },
     {
         id: "4",
@@ -32,7 +44,11 @@ const events = [
         venue: "Online",
         type: "main",
         description: "Description for Event 4",
-        imageUrl: eventImg
+        imageUrl: eventImg,
+        price: "Free",
+        priceForIeeeMembers: "Free",
+        date: "2024-10-18",
+        time: "02:00 PM - 04:00 PM",
     },
     {
         id: "5",
@@ -40,7 +56,11 @@ const events = [
         venue: "GCEK Seminar Hall",
         type: "pre",
         description: "Description for Event 5",
-        imageUrl: eventImg
+        imageUrl: eventImg,
+        price: "Free",
+        priceForIeeeMembers: "Free",
+        date: "2024-10-19",
+        time: "11:00 AM - 01:00 PM",
     },
     {
         id: "6",
@@ -48,7 +68,11 @@ const events = [
         venue: "Online",
         type: "main",
         description: "Description for Event 6",
-        imageUrl: eventImg
+        imageUrl: eventImg,
+        price: "Free",
+        priceForIeeeMembers: "Free",
+        date: "2024-10-20",
+        time: "03:00 PM - 05:00 PM",
     },
     {
         id: "7",
@@ -56,7 +80,11 @@ const events = [
         venue: "GCEK",
         type: "main",
         description: "Description for Event 7",
-        imageUrl: eventImg
+        imageUrl: eventImg,
+        price: "300",
+        priceForIeeeMembers: "100",
+        date: "2024-10-21",
+        time: "10:00 AM - 12:00 PM",
     },
     {
         id: "8",
@@ -64,7 +92,11 @@ const events = [
         venue: "GCEK",
         type: "pre",
         description: "Description for Event 8",
-        imageUrl: eventImg
+        imageUrl: eventImg,
+        price: "Free",
+        priceForIeeeMembers: "Free",
+        date: "2024-10-22",
+        time: "01:00 PM - 03:00 PM",
     },
     {
         id: "9",
@@ -72,7 +104,11 @@ const events = [
         venue: "GCEK",
         type: "pre",
         description: "Description for Event 9",
-        imageUrl: eventImg
+        imageUrl: eventImg,
+        price: "Free",
+        priceForIeeeMembers: "Free",
+        date: "2024-10-23",
+        time: "09:00 AM - 11:00 AM",
     },
     {
         id: "10",
@@ -80,7 +116,11 @@ const events = [
         venue: "GCEK",
         type: "pre",
         description: "Description for Event 10",
-        imageUrl: eventImg
+        imageUrl: eventImg,
+        price: "Free",
+        priceForIeeeMembers: "Free",
+        date: "2024-10-24",
+        time: "02:00 PM - 04:00 PM",
     }
 ];
 

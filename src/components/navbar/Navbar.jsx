@@ -15,6 +15,7 @@ export default function Navbar() {
     //boolean
     const isAbout = location.pathname == "/about";
     const isHome = location.pathname == "/";
+    const isLogin = location.pathname == "/login";
     const isEvents = location.pathname == "/events";
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -54,6 +55,24 @@ export default function Navbar() {
                     >
                         About
                     </span>
+                    <span
+                        className={isLogin ? styles.active : styles.menuText}
+                        onClick={() => {
+                            navigate("/login");
+                            setTimeout(() => {
+                                if (window.innerWidth <= 768) {
+                                    setIsMenuOpen(false)
+                                    document.body.style.overflow = !isMenuOpen ? "hidden" : "auto";
+
+                                }
+
+                            }, 300);
+
+                        }}
+                    >
+                        Login
+                    </span>
+
                     <span
                         className={isEvents ? styles.active : styles.menuText}
                         onClick={() => {
