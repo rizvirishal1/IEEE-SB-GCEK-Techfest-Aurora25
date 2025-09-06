@@ -15,7 +15,11 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
+    IEEEMemberStatus: {
+        type: String,
+        default: "Verification Pending"
+    },
 })
 
 userSchema.pre("save", async function (next) {

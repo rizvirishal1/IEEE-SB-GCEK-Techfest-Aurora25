@@ -7,7 +7,9 @@ import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import path from 'path';
 //routers
+import loginRouter from './routes/login.js';
 import registerRouter from './routes/register.js';
+import userRouter from './routes/user.js';
 import verifyMobileRouter from './routes/verify-mobile.js';
 
 
@@ -20,8 +22,10 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "dist")));
 
 //using the routers
+app.use('/api/login', loginRouter);
 app.use('/api/verify-mobile', verifyMobileRouter);
 app.use('/api/register', registerRouter);
+app.use('/api/user', userRouter);
 
 //serving index.html for get request to non existing routes
 app.get(/\/(.*)/, function (req, res) {
