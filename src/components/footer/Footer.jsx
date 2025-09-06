@@ -75,6 +75,25 @@ export default function Footer() {
                             Person 3  : 7531984260
                         </p>
                     </div>
+
+                    <div className={styles.websiteby}>
+                        <h3>Website by</h3>
+                        <p className={styles.developer}
+                            onClick={() => window.open("https://www.linkedin.com/in/rizvi-rishal/", "_blank")}
+                        >
+                            <img src={linkedInIcon} alt="LinkedIn Icon" />
+                            Rizvi Rishal
+                        </p>
+                        <p className={styles.developer}
+                            onClick={() => window.open("https://www.linkedin.com/in/shad-c-t/", "_blank")}
+
+
+                        >
+                            <img src={linkedInIcon} alt="LinkedIn Icon" />
+                            Shad C.T.
+                        </p>
+                    </div>
+
                     <div className={styles.address}>
                         <h3>Venue</h3>
                         <p>
