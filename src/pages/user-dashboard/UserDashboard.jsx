@@ -32,7 +32,7 @@ export default function UserDashboard() {
                 setUserData(response.data);
             } catch (error) {
 
-                if (error.response.data.error === "Session expired. Please login") {
+                if (error.response.data.error === "Session expired. Please Login") {
                     toast.error("Session expired. Please login again.");
                     localStorage.removeItem("authToken");
                     setTimeout(() => {
@@ -63,6 +63,21 @@ export default function UserDashboard() {
                 <p>Mobile: {userData.mobile}</p>
                 <p>IEE Member: {userData.IEEEMemberStatus}</p>
                 <hr />
+                <button
+                    className={styles.buyEarlyBirdTicketBtn}
+                    onClick={() => {
+                        navigate("/order-summary", {
+                            state: {
+                                ticket: {
+                                    type: "festTicket",
+                                    offerType: "early-bird"
+                                }
+                            }
+                        });
+                    }}
+                >
+                    GET EARLY BIRD TICKET
+                </button>
 
             </div>)}
 

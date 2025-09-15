@@ -1,6 +1,7 @@
 //imports…
 import api from "../../api";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 //styles
@@ -10,6 +11,13 @@ export default function Login() {
 
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        if (token) {
+            navigate("/user-dashboard");
+        }
+    }, [navigate]);
 
     const handleSubmit = async (e) => {
         if (loading) return;

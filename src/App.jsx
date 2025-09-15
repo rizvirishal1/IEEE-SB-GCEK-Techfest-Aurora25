@@ -12,6 +12,7 @@ import Events from './pages/events/Events.jsx';
 import EventDetails from './pages/event-details/EventDetails.jsx';
 import Home from './pages/home/Home.jsx';
 import Login from './pages/login/Login.jsx';
+import OrderSummary from './pages/order-summary/OrderSummary.jsx';
 import Register from './pages/register/Register.jsx';
 import UserDashboard from './pages/user-dashboard/UserDashboard.jsx';
 //styles
@@ -32,6 +33,7 @@ function App() {
           <Route path="/register" element={<Layout><Register /></Layout>} />
           <Route path="/login" element={<Layout><Login /></Layout>} />
           <Route path="/user-dashboard" element={<Layout><UserDashboard /></Layout>} />
+          <Route path="/order-summary" element={<Layout><OrderSummary /></Layout>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>
