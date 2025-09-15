@@ -16,10 +16,25 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    IEEEMemberId: {
+        type: String,
+    },
     IEEEMemberStatus: {
         type: String,
-        default: "Verification Pending"
+        default: "Non-Member"
     },
+    festTicket: {
+        offerType: String,
+        isPurchased: { type: Boolean, default: false },
+        purchaseStatus: { type: String, default: "Not Purchased" },
+        paymentScreenshot: { type: String },
+    },
+    eventTickets: [{
+        eventId: { type: String },
+        isPurchased: { type: Boolean, default: false },
+        purchaseStatus: { type: String, default: "Not Purchased" }
+    }],
+
 })
 
 userSchema.pre("save", async function (next) {

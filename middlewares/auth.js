@@ -25,6 +25,7 @@ const authenticateToken = async (req, res, next) => {
                 }
 
                 res.user = userPlainObject;
+
                 next();
             },
         );
