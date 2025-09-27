@@ -32,15 +32,11 @@ export default function UserDashboard() {
                 setUserData(response.data);
             } catch (error) {
 
-                if (error.response.data.error === "Session expired. Please Login") {
-                    toast.error("Session expired. Please login again.");
-                    localStorage.removeItem("authToken");
-                    setTimeout(() => {
-                        navigate("/login");
-                    }, 1000);
-                } else {
-                    toast.error(error.response?.data?.error || "Failed to fetch user data. Please try again.");
-                }
+                toast.error(error.response?.data?.error || "Failed to fetch user data. Please try again.");
+                localStorage.removeItem("authToken");
+                setTimeout(() => {
+                    navigate("/login");
+                }, 1000);
             } finally {
                 setIsLoading(false);
             }
