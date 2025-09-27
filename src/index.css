@@ -1,6 +1,17 @@
 @import "tailwindcss";
 
+<<<<<<< HEAD
+=======
+@font-face {
+  font-family: "NicoMoji";
+  src: url("./assets/font/NicoMoji-Regular.ttf") format("truetype");
+}
+
+@theme {
+  --font-nico: NicoMoji, sans-serif;
+}
+>>>>>>> f04d47a154b7b88ff4f6d164bab405c82578127b
 
 body {
-    margin: 0;
+  margin: 0;
 }
