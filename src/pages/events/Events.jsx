@@ -59,7 +59,7 @@ export default function Events() {
       {/* MODIFIED: Added 'justify-center' to vertically center the content */}
       <div className="relative z-10 flex flex-col items-center justify-center py-10 px-5 min-h-screen">
         {/* THIS IS THE CONTAINER DIV that now holds both the UI and the events list */}
-        <div className="bg-black/40  backdrop-blur-lg p-8 rounded-[20px] shadow-2xl w-full lg:h-[73vh] mt-[7vh] lg:mt-0 flex flex-col items-center">
+        <div className="bg-black/40  backdrop-blur-lg p-8 rounded-[20px] shadow-2xl w-full lg:h-[85vh] mt-[7vh]  flex flex-col items-center">
           <h1 className="text-4xl font-extrabold mb-8 text-white text-center">
             Upcoming Events
           </h1>
