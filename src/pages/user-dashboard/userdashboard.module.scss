@@ -18,3 +18,18 @@
         background-color: #218838;
     }
 }
+
+.logoutBtn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+        background-color: #c82333;
+    }
+}

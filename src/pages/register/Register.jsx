@@ -15,6 +15,7 @@ export default function Register() {
     const [timer, setTimer] = useState(-1);
     const [formData, setFormData] = useState({
         name: "",
+        IEEEMemberId: "",
         mobile: "",
         password: "",
         "re-password": "",
@@ -70,12 +71,14 @@ export default function Register() {
         try {
             await api.post("/register", {
                 name: formData.name,
+                IEEEMemberId: formData.IEEEMemberId,
                 mobile: formData.mobile,
                 password: formData.password
             });
             toast.success("Registration successful! You can now log in.");
             setFormData({
                 name: "",
+                IEEEMemberId: "",
                 mobile: "",
                 password: "",
                 "re-password": "",
@@ -127,6 +130,19 @@ export default function Register() {
                         required
                         onChange={handleInputChange}
                         value={formData.name}
+                    />
+                </div>
+                <div className={styles.formItems}>
+                    <label htmlFor="IEEEMemberId">IEEE Member ID:</label>
+                    <input
+                        autoComplete="IEEEMemberId"
+                        id="IEEEMemberId"
+                        type="text"
+                        name="IEEEMemberId"
+                        required
+                        onChange={handleInputChange}
+                        value={formData.IEEEMemberId}
+                        placeholder="IEEE Members can get discount on tickets"
                     />
                 </div>
                 <div className={styles.formItems}>

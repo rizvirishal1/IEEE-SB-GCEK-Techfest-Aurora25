@@ -53,11 +53,21 @@ export default function UserDashboard() {
             {!isLoading && userData && (<div>
 
                 <h1>User Dashboard</h1>
+                <button
+                    className={styles.logoutBtn}
+                    onClick={() => {
+                        localStorage.removeItem("authToken");
+                        navigate("/login");
+                    }}
+                >
+                    Logout
+                </button>
                 <h2>{userData.name}</h2>
                 <hr />
                 <h3>user details</h3>
                 <p>Mobile: {userData.mobile}</p>
-                <p>IEE Member: {userData.IEEEMemberStatus}</p>
+                {userData.IEEEMemberId && <p>IEEE Member ID: {userData.IEEEMemberId}</p>}
+                <p>IEEE Member: {userData.IEEEMemberId === "" ? "Non-Member" : userData.IEEEMemberStatus}</p>
                 <hr />
                 <button
                     className={styles.buyEarlyBirdTicketBtn}
