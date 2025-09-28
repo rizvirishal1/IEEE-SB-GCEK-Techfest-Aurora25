@@ -8,7 +8,7 @@ const registerRouter = express.Router();
 
 registerRouter.post('/', async (req, res) => {
 
-    const { name, mobile, password } = req.body;
+    const { name, mobile, password, IEEEMemberId } = req.body;
 
     if (!name || !mobile || !password) {
         return res.status(400).json({ error: "All fields are required" });
@@ -26,7 +26,7 @@ registerRouter.post('/', async (req, res) => {
         return res.status(400).json({ error: "Mobile number not verified" });
     }
 
-    const newUser = new User({ name, mobile, password });
+    const newUser = new User({ name, mobile, password, IEEEMemberId });
 
     try {
         await newUser.save();

@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     },
     IEEEMemberStatus: {
         type: String,
-        default: "Non-Member"
+        default: "Verification Pending"
     },
     festTicket: {
         offerType: String,
