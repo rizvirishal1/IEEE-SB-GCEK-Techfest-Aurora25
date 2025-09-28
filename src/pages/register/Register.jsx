@@ -161,17 +161,23 @@ export default function Register() {
                                 className="w-full h-12 border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-inner bg-white/70 text-gray-800 placeholder-gray-500 transition duration-150"
                             />
                         </div>
-                        <div className={styles.formItems}>
-                            <label htmlFor="IEEEMemberId">IEEE Member ID:</label>
+
+                        {/* IEEE Member ID Input */}
+                        <div className="flex flex-col gap-2 w-full">
+                            <label
+                                htmlFor="IEEEMemberId"
+                                className="self-start font-medium text-white"
+                            >
+                                IEEE Member ID (optional):
+                            </label>
                             <input
                                 autoComplete="IEEEMemberId"
                                 id="IEEEMemberId"
                                 type="text"
                                 name="IEEEMemberId"
-                                required
                                 onChange={handleInputChange}
                                 value={formData.IEEEMemberId}
-                                placeholder="IEEE Members can get discount on tickets"
+                                className="w-full h-12 border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-inner bg-white/70 text-gray-800 placeholder-gray-500 transition duration-150"
                             />
                         </div>
 
