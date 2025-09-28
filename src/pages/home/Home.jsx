@@ -3,11 +3,12 @@ import React, { useState, useEffect, useRef } from "react";
 import background from "../../assets/images/homeBG.jpg";
 import { useNavigate } from "react-router";
 import eventhighlight from "../../data/event.highlight.js";
+import Footer from "../../components/footer/Footer";
 
 const EventHighlights = () => {
   return (
     <div
-      className="w-full relative min-h-screen flex flex-col items-center justify-center py-12 px-4 bg-black bg-opacity-80 backdrop-blur-sm z-20"
+      className="w-full lg:h-screen lg:py-0 relative flex flex-col items-center justify-center py-12 px-4 bg-black bg-opacity-80 backdrop-blur-sm z-20"
       style={{
         backgroundImage:
           "linear-gradient(rgba(77, 77, 77, 0.8), rgba(0,0,0,0.8))",
@@ -26,9 +27,6 @@ const EventHighlights = () => {
             <div key={event.id} className="flex flex-col items-center">
               <div className="bg-black/40 border-2 border-white/20 p-4 rounded-lg shadow-xl">
                 <div className="relative">
-                  {/* <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    JUNE 20-22
-                  </div> */}
                   <img
                     src={event.imageUrl}
                     alt={event.title}
@@ -70,8 +68,6 @@ export default function Home() {
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -79,7 +75,6 @@ export default function Home() {
 
   const handleClick = () => {
     setShowHighlights(true);
-    // Smooth scroll to the highlights section
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -132,6 +127,8 @@ export default function Home() {
           <EventHighlights />
         </div>
       )}
+
+      {<Footer />}
     </div>
   );
 }
