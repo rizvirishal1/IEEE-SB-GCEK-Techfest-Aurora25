@@ -17,6 +17,7 @@ export default function OrderSummary() {
         const ticket = new FormData();
         ticket.append("paymentScreenshot", e.target.paymentScreenshot.files[0]);
         ticket.append("type", ticketDetails.type);
+        ticket.append("offerType", ticketDetails.offerType);
 
         try {
             await api.post("/user/buy-ticket", ticket, {

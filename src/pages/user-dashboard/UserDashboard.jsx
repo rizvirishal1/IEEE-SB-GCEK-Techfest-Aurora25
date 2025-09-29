@@ -1,5 +1,6 @@
 //imports…
 import api from "../../api";
+import events from "../../data/events"
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -69,25 +70,47 @@ export default function UserDashboard() {
                 {userData.IEEEMemberId && <p>IEEE Member ID: {userData.IEEEMemberId}</p>}
                 <p>IEEE Member: {userData.IEEEMemberId === "" ? "Non-Member" : userData.IEEEMemberStatus}</p>
                 <hr />
-                <button
-                    className={styles.buyEarlyBirdTicketBtn}
-                    onClick={() => {
-                        navigate("/order-summary", {
-                            state: {
-                                ticket: {
-                                    type: "festTicket",
-                                    offerType: "early-bird"
+                {!userData.festTicket.isPurchased && (
+
+                    < button
+                        className={styles.buyEarlyBirdTicketBtn}
+                        onClick={() => {
+                            navigate("/order-summary", {
+                                state: {
+                                    ticket: {
+                                        type: "festTicket",
+                                        offerType: "early-bird"
+                                    }
                                 }
-                            }
-                        });
-                    }}
-                >
-                    GET EARLY BIRD TICKET
-                </button>
+                            });
+                        }}
+                    >
+                        GET EARLY BIRD TICKET
+                    </button>
+                )
+                }
 
-            </div>)}
+                <p>Tickets Bought:</p>
+                <hr />
+                <p>Fest Ticket:</p>
+                <p>Type: {userData.festTicket.offerType}</p>
+                <p>Status: {userData.festTicket.purchaseStatus}</p>
+                <br />
+                <p>Event Tickets:</p>
+                {userData.eventTickets.length === 0 && <p>No event tickets purchased.</p>}
+                {userData.eventTickets.length > 0 && userData.eventTickets.map((ticket, index) => (
+                    <div key={index} className={styles.eventTicket}>
+                        <p>Event Name: {events[ticket.eventId].title}</p>
+                        <p>Status: {ticket.purchaseStatus}</p>
+                        <hr />
+                    </div>
+                ))}
 
 
-        </div>
+            </div>)
+            }
+
+
+        </div >
     );
 }
