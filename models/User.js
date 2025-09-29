@@ -31,8 +31,7 @@ const userSchema = new mongoose.Schema({
     },
     eventTickets: [{
         eventId: { type: String },
-        isPurchased: { type: Boolean, default: false },
-        purchaseStatus: { type: String, default: "Not Purchased" }
+        purchaseStatus: { type: String, default: "Verification Pending" }
     }],
 
 })

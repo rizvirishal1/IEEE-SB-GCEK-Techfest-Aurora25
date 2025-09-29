@@ -35,6 +35,7 @@ userRouter.post('/buy-ticket', authenticateToken, upload.single("paymentScreensh
             return res.status(404).json({ error: "User not found" });
         }
         const ticketType = req.body.type;
+        const offerType = req.body.offerType;
 
 
         if (!ticketType) {
@@ -50,6 +51,7 @@ userRouter.post('/buy-ticket', authenticateToken, upload.single("paymentScreensh
             user.festTicket = {
                 isPurchased: true,
                 purchaseStatus: "Verification Pending",
+                offerType: offerType || "Regular",
             };
         }
 
