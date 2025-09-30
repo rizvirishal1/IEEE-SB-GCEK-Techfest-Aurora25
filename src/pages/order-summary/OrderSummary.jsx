@@ -50,6 +50,12 @@ export default function OrderSummary() {
                     <h2>Order Details</h2>
                     <p>Ticket Type: {ticketDetails.type}</p>
                     <p>Price: {ticketDetails.offerType === "early-bird" ? "$50" : "$100"}</p>
+                    <p>Ticket Details:</p>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam excepturi voluptates dolorum necessitatibus, deserunt veniam voluptatibus consequuntur? Tempore, consequatur, ipsam iusto, odit quod suscipit sapiente rem aliquid dicta ea ut.</p>
+                    <div className={styles.qrCodesection}>
+                        <div className={styles.qrCode}>Gpay qrcode here</div>
+                        <p>Scan to Pay</p>
+                    </div>
                     <form className={styles.paymentForm} onSubmit={handleSubmit}>
                         <label htmlFor="paymentScreenshot">Upload Payment Screenshot:</label>
                         <input
@@ -58,8 +64,9 @@ export default function OrderSummary() {
                             id="paymentScreenshot"
                             name="paymentScreenshot"
                             required
+                            className={styles.fileInput}
                         />
-                        <button type="submit">Submit Payment</button>
+                        <button className={styles.submitBtn} type="submit">Submit Payment</button>
                     </form>
                 </div>
             )}

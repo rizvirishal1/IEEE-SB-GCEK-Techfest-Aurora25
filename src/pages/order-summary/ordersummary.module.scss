@@ -1,3 +1,24 @@
 .orderSummary {
     margin-top: 100px;
 }
+
+.submitBtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.fileInput {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+}
+
+.qrCode {
+    width: 150px;
+    height: 150px;
+    background-color: aqua;
+}
