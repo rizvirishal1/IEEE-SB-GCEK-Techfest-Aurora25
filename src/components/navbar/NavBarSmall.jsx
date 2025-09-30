@@ -41,7 +41,7 @@ const NavBarSmall = ({handleNavigation, getPath}) => {
                     animate={{scaleY: 1}}
                     transition={{ease: 'easeOut', duration: 0.24}}
                     
-                    className="origin-top w-full h-[60vh] justify-center mt-2 flex flex-col items-center gap-4 z-50">
+                    className="origin-top w-full h-fit justify-center mt-2 flex flex-col items-center gap-4 z-50">
                     {menu.map((item, i) => (
                         <MenuItem handleNaviagtion={handleNavigation} setMenuOpen={setMenuOpen} path={paths[i]} getPath={getPath} name={item} key={`menu-item-s-${i}`} />
                     ))}
