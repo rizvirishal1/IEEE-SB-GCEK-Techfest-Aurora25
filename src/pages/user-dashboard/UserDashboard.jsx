@@ -3,7 +3,7 @@ import api from "../../api";
 import events from "../../data/events"
 import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 //styles    
 import styles from "./userdashboard.module.scss"
@@ -11,11 +11,17 @@ import styles from "./userdashboard.module.scss"
 export default function UserDashboard() {
 
     const navigate = useNavigate();
+    const location = useLocation();
+
 
     const [userData, setUserData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+
+        console.log(location.pathname);
+        
+
         const fetchData = async () => {
             setIsLoading(true);
             try {

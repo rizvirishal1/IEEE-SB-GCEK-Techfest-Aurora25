@@ -54,7 +54,9 @@ const NavBarSmall = ({handleNavigation, getPath}) => {
 
 function MenuItem({ name, path, getPath, handleNaviagtion, setMenuOpen }) {
 
-    return <span onClick={() => { handleNaviagtion(path); setMenuOpen(false); }} className={`rounded-[35px] backdrop-blur-md  w-full shadow-lg  text-white px-5 py-[10px] text-2xl font-semibold ${path === getPath() ? "bg-green-500/30 shadow-green-500/20 border border-white/40" : "bg-transparent"}`}>
+    const isOnUserDashboard = (path == '/login' && getPath() == '/user-dashboard');
+
+    return <span onClick={() => { handleNaviagtion(path); setMenuOpen(false); }} className={`rounded-[35px] backdrop-blur-md  w-full shadow-lg  text-white px-5 py-[10px] text-2xl font-semibold ${path === getPath() || isOnUserDashboard ? "bg-green-500/30 shadow-green-500/20 border border-white/40" : "bg-transparent"}`}>
         {name}
     </span>
 }

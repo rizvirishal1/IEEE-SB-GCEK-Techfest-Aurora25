@@ -25,7 +25,9 @@ const NavBarLarge = ({handleNavigation, getPath}) => {
 
 function MenuItem({name, path, getPath, handleNavigation}) {
 
-    return <span onClick={() => handleNavigation(path)} className={`rounded-[35px] cursor-pointer text-white px-5 py-[10px] text-2xl font-semibold ${path === getPath() ? "backdrop-blur-md bg-green-500/30 shadow-lg shadow-green-500/20 border border-white/40" : ""}`}>
+    const isOnUserDashboard = (path == '/login' && getPath() == '/user-dashboard');
+
+    return <span onClick={() => handleNavigation(path)} className={`rounded-[35px] cursor-pointer text-white px-5 py-[10px] text-2xl font-semibold ${path === getPath() || isOnUserDashboard ? "backdrop-blur-md bg-green-500/30 shadow-lg shadow-green-500/20 border border-white/40" : ""}`}>
         {name}
     </span>
 }
