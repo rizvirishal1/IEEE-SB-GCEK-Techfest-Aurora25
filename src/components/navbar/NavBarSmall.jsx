@@ -64,7 +64,7 @@ function MenuItem({ name, path, getPath, handleNaviagtion, setMenuOpen }) {
 
     const isOnUserDashboard = (path == '/login' && getPath() == '/user-dashboard');
 
-    return <span onClick={() => { handleNaviagtion(path); setMenuOpen(false); }} className={`rounded-[35px] backdrop-blur-md  w-full shadow-lg  text-white px-5 py-[10px] text-2xl font-semibold ${path === getPath() || isOnUserDashboard ? "bg-green-500/30 shadow-green-500/20 border border-white/40" : "bg-transparent"}`}>
+    return <span onClick={() => { handleNaviagtion(path); setMenuOpen(false); }} className={`rounded-[35px]   w-full   text-white px-5 py-[10px] text-2xl font-semibold ${path === getPath() || isOnUserDashboard ? "bg-green-500/30 shadow-green-500/20 border border-white/40 backdrop-blur-md shadow-lg" : "bg-transparent border-1 border-gray-400"}`}>
         {name}
     </span>
 }

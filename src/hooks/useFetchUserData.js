@@ -43,7 +43,11 @@ function useFetchUserData() {
 
     function logout() {
         localStorage.removeItem('authToken');
-        navigate('/login');
+        setIsLoading(true)
+        setTimeout(() => {
+            navigate('/login')
+            setIsLoading(false)
+        }, 1000)
     }
 
     return { userData, isLoading, logout }
