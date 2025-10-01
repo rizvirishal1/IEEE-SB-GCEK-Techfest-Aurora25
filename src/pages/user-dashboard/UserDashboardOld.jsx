@@ -5,7 +5,7 @@ import useFetchUserData from "../../hooks/useFetchUserData";
 
 export default function UserDashboard() {
 
-    const { isLoading, userData, logout } = useFetchUserData();
+    const { isLoading, userData, logout, getEarlyBirdTicket } = useFetchUserData();
 
     return (
 

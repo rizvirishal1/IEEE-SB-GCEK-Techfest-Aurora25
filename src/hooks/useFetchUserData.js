@@ -24,18 +24,18 @@ function useFetchUserData() {
 
     useEffect(() => {
 
-        async function fetchData (){
+        async function fetchData() {
             try {
                 let data = await fetchUserData();
                 setUserData(data.data)
-            } catch(err) {
+            } catch (err) {
                 toast.error("Failed to fetch user data. Please try again.");
                 localStorage.removeItem('authToken');
                 navigate('/login');
             } finally {
                 setIsLoading(false);
             }
-        } 
+        }
 
         fetchData();
 
@@ -50,7 +50,18 @@ function useFetchUserData() {
         }, 1000)
     }
 
-    return { userData, isLoading, logout }
+    function getEarlyBirdTicket() {
+        navigate("/order-summary", {
+            state: {
+                ticket: {
+                    type: "festTicket",
+                    offerType: "early-bird"
+                }
+            }
+        });
+    }
+
+    return { userData, isLoading, logout, getEarlyBirdTicket }
 }
 
 export default useFetchUserData;
