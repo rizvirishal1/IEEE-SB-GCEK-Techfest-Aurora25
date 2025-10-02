@@ -23,17 +23,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "Verification Pending"
     },
+    reasonForMembershipRejection: {
+        type: String
+    },
     festTicket: {
-        offerType: String,
-        isPurchased: { type: Boolean, default: false },
-        purchaseStatus: { type: String, default: "Not Purchased" },
-        paymentScreenshot: { type: String },
+        festTicketId: { type: mongoose.Schema.Types.ObjectId, ref: "FestTicket" },
     },
     eventTickets: [{
         eventId: { type: String },
         purchaseStatus: { type: String, default: "Verification Pending" }
     }],
-
 })
 
 userSchema.pre("save", async function (next) {

@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import path from 'path';
 //routers
+import adminRouter from './routes/admin.js';
 import loginRouter from './routes/login.js';
 import registerRouter from './routes/register.js';
 import userRouter from './routes/user.js';
@@ -19,6 +20,7 @@ const __dirname = dirname(__filename);
 const app = express();
 const allowedOrigins = [
     "http://localhost:5173",              // local dev
+    "http://localhost:3000",              // local dev - admin
     "https://aurora.ieeesbgcek.org",      // production
     "https://www.aurora.ieeesbgcek.org"   // if www is also used
 ];
@@ -43,6 +45,7 @@ app.use('/api/login', loginRouter);
 app.use('/api/verify-mobile', verifyMobileRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/user', userRouter);
+app.use('/api/admin', adminRouter);
 
 //serving index.html for get request to non existing routes
 app.get(/\/(.*)/, function (req, res) {
