@@ -1,6 +1,7 @@
 import api from "../../api";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
+import { use, useState } from "react";
 import { toast } from "react-toastify";
 import BGfromPoster from "../../assets/images/BGfromPoster.png";
 
@@ -8,6 +9,8 @@ export default function OrderSummary() {
   const location = useLocation();
   const navigate = useNavigate();
   const ticketDetails = location.state?.ticket || {};
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,16 +25,21 @@ export default function OrderSummary() {
 
     ticket.append("paymentScreenshot", paymentFile);
     ticket.append("type", ticketDetails.type);
-    ticket.append("offerType", ticketDetails.offerType);
+    ticket.append("isEarlyBird", ticketDetails.isEarlyBird);
 
     try {
-      await api.post("/user/buy-ticket", ticket, {
+      setIsSubmitting(true);
+      await api.post("/user/buy-fest-ticket", ticket, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       });
       toast.success("Payment successful! Your ticket has been booked.");
+      setTimeout(() => {
+        navigate("/user-dashboard");
+      }, 1500);
+
     } catch (error) {
       if (error.response?.data?.error === "Session expired. Please login") {
         toast.error("Session expired. Please login again.");
@@ -44,6 +52,9 @@ export default function OrderSummary() {
           error.response?.data?.error || "Submission failed. Please try again."
         );
       }
+    }
+    finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -118,8 +129,9 @@ export default function OrderSummary() {
                 <button
                   className="w-full bg-green-600 text-white font-semibold rounded-lg py-3 px-8 text-lg cursor-pointer transition duration-300 hover:bg-green-700 shadow-lg hover:shadow-xl mt-4"
                   type="submit"
+                  disabled={isSubmitting}
                 >
-                  Submit Payment
+                  {isSubmitting ? "Processing..." : "Submit Payment"}
                 </button>
               </form>
             </div>

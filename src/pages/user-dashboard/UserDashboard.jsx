@@ -11,10 +11,10 @@ export default function UserDashboard() {
   const location = useLocation();
 
   const [userData, setUserData] = useState(null);
+  const [festTicket, setFestTicket] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log(location.pathname);
 
     const fetchData = async () => {
       setIsLoading(true);
@@ -31,10 +31,18 @@ export default function UserDashboard() {
           },
         });
         setUserData(response.data);
+
+        const festTicketResponse = await api.get("/user/fest-ticket", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFestTicket(festTicketResponse.data || null);
+
       } catch (error) {
         toast.error(
           error.response?.data?.error ||
-            "Failed to fetch user data. Please try again."
+          "Failed to fetch user data. Please try again."
         );
         localStorage.removeItem("authToken");
         setTimeout(() => {
@@ -99,20 +107,30 @@ export default function UserDashboard() {
                   </p>
                 )}
                 <p>
-                  IEEE Member:{" "}
+                  IEEE Member Status:{" "}
                   <span className="font-medium">
                     {userData.IEEEMemberId === ""
                       ? "Non-Member"
                       : userData.IEEEMemberStatus}
                   </span>
                 </p>
+                {userData.reasonForMembershipRejection && (
+                  <div> <p>
+                    Reason for Rejection:{" "}
+                    <span className="font-medium">{userData.reasonForMembershipRejection}</span>
+                  </p>
+                    <p>For clarification contact us:</p>
+                    <span className="font-medium">Person: 8875861225</span>
+                  </div>
+                )}
               </div>
 
               <hr className="border-white/50 my-6" />
 
               <h3 className="text-xl font-semibold mb-4">Tickets</h3>
 
-              {!userData.festTicket.isPurchased && (
+              {/* Fest Ticket section visible for users who didnt buy the fest ticket */}
+              {!userData.festTicket && (
                 <div className="p-4 bg-green-700/30 border border-green-500 rounded-lg flex flex-col items-start mb-6">
                   <p className="text-lg font-bold mb-3">
                     Grab your Fest Ticket!
@@ -125,7 +143,7 @@ export default function UserDashboard() {
                         state: {
                           ticket: {
                             type: "festTicket",
-                            offerType: "early-bird",
+                            isEarlyBird: true,
                           },
                         },
                       });
@@ -141,15 +159,33 @@ export default function UserDashboard() {
                 <p className="ml-4">
                   Type:{" "}
                   <span className="font-medium">
-                    {userData.festTicket.offerType}
+                    {
+                      festTicket ? (festTicket.isEarlyBird ? "Early Bird" : "Regular") : "Not Purchased"
+                    }
                   </span>
                 </p>
                 <p className="ml-4">
                   Status:{" "}
                   <span className="font-medium text-yellow-300">
-                    {userData.festTicket.purchaseStatus}
+                    {festTicket ? festTicket.purchaseStatus : "Not Purchased"}
                   </span>
                 </p>
+                {festTicket && festTicket.reasonForRejection && (
+                  <div>
+                    <p className="ml-4 text-red-400">
+                      Reason for Rejection:{" "}
+                      <span className="font-medium">
+                        {festTicket.reasonForRejection}
+                      </span>
+                    </p>
+                    <p className="ml-4 text-red-400">
+                      For clarification contact us:{" "}
+                      <span className="font-medium">
+                        Person: 8894561230
+                      </span>
+                    </p>
+                  </div>
+                )}
               </div>
 
               <hr className="border-white/50 my-6" />
