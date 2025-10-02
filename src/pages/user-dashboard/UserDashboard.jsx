@@ -1,122 +1,191 @@
-//imports…
 import api from "../../api";
-import events from "../../data/events"
+import events from "../../data/events";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
-//styles    
-import styles from "./userdashboard.module.scss"
+import BGfromPoster from "../../assets/images/BGfromPoster.png";
 
 export default function UserDashboard() {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    const navigate = useNavigate();
-    const location = useLocation();
+  const [userData, setUserData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    console.log(location.pathname);
 
-    const [userData, setUserData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+          navigate("/login");
+          return;
+        }
 
-    useEffect(() => {
+        const response = await api.get("/user/dashboard", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserData(response.data);
+      } catch (error) {
+        toast.error(
+          error.response?.data?.error ||
+            "Failed to fetch user data. Please try again."
+        );
+        localStorage.removeItem("authToken");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-        console.log(location.pathname);
-        
+    fetchData();
+  }, [navigate, location.pathname]);
 
-        const fetchData = async () => {
-            setIsLoading(true);
-            try {
-                const token = localStorage.getItem("authToken");
-                if (!token) {
-                    navigate("/login");
-                    return;
-                }
+  return (
+    <div className="relative min-h-screen">
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `url(${BGfromPoster})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      ></div>
 
-                const response = await api.get("/user/dashboard", {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                setUserData(response.data);
-            } catch (error) {
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center p-4">
+        <div className="bg-black/30 backdrop-blur-lg p-8 rounded-xl shadow-2xl w-full max-w-4xl text-white">
+          {isLoading && <p className="text-xl text-center py-10">Loading...</p>}
+          {!isLoading && !userData && (
+            <p className="text-xl text-center py-10 text-red-400">
+              Error loading user data. Please try again.
+            </p>
+          )}
 
-                toast.error(error.response?.data?.error || "Failed to fetch user data. Please try again.");
-                localStorage.removeItem("authToken");
-                setTimeout(() => {
-                    navigate("/login");
-                }, 1000);
-            } finally {
-                setIsLoading(false);
-            }
-
-        };
-
-        fetchData();
-    }, []);
-
-    return (
-        <div className={styles.userDashboard}>
-            {isLoading && <p>Loading...</p>}
-            {!isLoading && !userData && <p>Error loading user data. Please try again.</p>}
-            {!isLoading && userData && (<div>
-
-                <h1>User Dashboard</h1>
+          {!isLoading && userData && (
+            <div className="userDashboard">
+              <div className="flex justify-between items-center mb-6 border-b border-white/50 pb-4">
+                <h1 className="text-3xl font-extrabold">
+                  Welcome, {userData.name}!
+                </h1>
+                {/* .logoutBtn -> bg-red-600, hover:bg-red-700, p-2 px-4, rounded-lg */}
                 <button
-                    className={styles.logoutBtn}
-                    onClick={() => {
-                        localStorage.removeItem("authToken");
-                        navigate("/login");
-                    }}
+                  className="logoutBtn bg-red-600 text-white font-semibold rounded-lg py-2 px-4 text-base cursor-pointer transition duration-200 hover:bg-red-700 shadow-md"
+                  onClick={() => {
+                    localStorage.removeItem("authToken");
+                    navigate("/login");
+                  }}
                 >
-                    Logout
+                  Logout
                 </button>
-                <h2>{userData.name}</h2>
-                <hr />
-                <h3>user details</h3>
-                <p>Mobile: {userData.mobile}</p>
-                {userData.IEEEMemberId && <p>IEEE Member ID: {userData.IEEEMemberId}</p>}
-                <p>IEEE Member: {userData.IEEEMemberId === "" ? "Non-Member" : userData.IEEEMemberStatus}</p>
-                <hr />
-                {!userData.festTicket.isPurchased && (
+              </div>
 
-                    < button
-                        className={styles.buyEarlyBirdTicketBtn}
-                        onClick={() => {
-                            navigate("/order-summary", {
-                                state: {
-                                    ticket: {
-                                        type: "festTicket",
-                                        offerType: "early-bird"
-                                    }
-                                }
-                            });
-                        }}
+              <h3 className="text-xl font-semibold mb-3 mt-4">User Details</h3>
+              <div className="space-y-1 mb-6 text-white/90">
+                <p>
+                  Mobile: <span className="font-medium">{userData.mobile}</span>
+                </p>
+                {userData.IEEEMemberId && (
+                  <p>
+                    IEEE Member ID:{" "}
+                    <span className="font-medium">{userData.IEEEMemberId}</span>
+                  </p>
+                )}
+                <p>
+                  IEEE Member:{" "}
+                  <span className="font-medium">
+                    {userData.IEEEMemberId === ""
+                      ? "Non-Member"
+                      : userData.IEEEMemberStatus}
+                  </span>
+                </p>
+              </div>
+
+              <hr className="border-white/50 my-6" />
+
+              <h3 className="text-xl font-semibold mb-4">Tickets</h3>
+
+              {!userData.festTicket.isPurchased && (
+                <div className="p-4 bg-green-700/30 border border-green-500 rounded-lg flex flex-col items-start mb-6">
+                  <p className="text-lg font-bold mb-3">
+                    Grab your Fest Ticket!
+                  </p>
+                  {/* .buyEarlyBirdTicketBtn -> bg-green-600, hover:bg-green-700, min-w-48, p-3, rounded-lg */}
+                  <button
+                    className="buyEarlyBirdTicketBtn bg-green-600 text-white font-semibold rounded-lg py-3 px-6 text-lg cursor-pointer transition duration-300 hover:bg-green-700 shadow-lg"
+                    onClick={() => {
+                      navigate("/order-summary", {
+                        state: {
+                          ticket: {
+                            type: "festTicket",
+                            offerType: "early-bird",
+                          },
+                        },
+                      });
+                    }}
+                  >
+                    GET EARLY BIRD TICKET
+                  </button>
+                </div>
+              )}
+
+              <div className="border border-white/40 p-4 rounded-lg mb-6">
+                <p className="text-lg font-medium mb-2">Fest Ticket Status:</p>
+                <p className="ml-4">
+                  Type:{" "}
+                  <span className="font-medium">
+                    {userData.festTicket.offerType}
+                  </span>
+                </p>
+                <p className="ml-4">
+                  Status:{" "}
+                  <span className="font-medium text-yellow-300">
+                    {userData.festTicket.purchaseStatus}
+                  </span>
+                </p>
+              </div>
+
+              <hr className="border-white/50 my-6" />
+
+              <p className="text-lg font-medium mb-3">
+                Event Tickets Purchased:
+              </p>
+
+              <div className="space-y-4">
+                {userData.eventTickets.length === 0 && (
+                  <p className="text-white/80 italic">
+                    No event tickets purchased yet.
+                  </p>
+                )}
+                {userData.eventTickets.length > 0 &&
+                  userData.eventTickets.map((ticket, index) => (
+                    <div
+                      key={index}
+                      className="eventTicket p-4 border border-white/30 rounded-lg bg-white/5"
                     >
-                        GET EARLY BIRD TICKET
-                    </button>
-                )
-                }
-
-                <p>Tickets Bought:</p>
-                <hr />
-                <p>Fest Ticket:</p>
-                <p>Type: {userData.festTicket.offerType}</p>
-                <p>Status: {userData.festTicket.purchaseStatus}</p>
-                <br />
-                <p>Event Tickets:</p>
-                {userData.eventTickets.length === 0 && <p>No event tickets purchased.</p>}
-                {userData.eventTickets.length > 0 && userData.eventTickets.map((ticket, index) => (
-                    <div key={index} className={styles.eventTicket}>
-                        <p>Event Name: {events[ticket.eventId].title}</p>
-                        <p>Status: {ticket.purchaseStatus}</p>
-                        <hr />
+                      <p className="font-semibold text-lg mb-1">
+                        Event Name: {events[ticket.eventId].title}
+                      </p>
+                      <p className="text-sm">
+                        Status:{" "}
+                        <span className="font-medium text-yellow-300">
+                          {ticket.purchaseStatus}
+                        </span>
+                      </p>
                     </div>
-                ))}
-
-
-            </div>)
-            }
-
-
-        </div >
-    );
+                  ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
