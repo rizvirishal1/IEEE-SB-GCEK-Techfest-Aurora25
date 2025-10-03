@@ -23,8 +23,8 @@ const allowedOrigins = [
     "http://localhost:3000",              // local dev - admin
     "https://aurora.ieeesbgcek.org",      // production
     "https://www.aurora.ieeesbgcek.org",   // if www is also used
-    "https://www.aurora.admin.ieeesbgcek.org/", // production - admin panel if www is also used
-    "https://aurora.admin.ieeesbgcek.org/"  // production - admin panel
+    "https://www.aurora.admin.ieeesbgcek.org", // production - admin panel if www is also used
+    "https://aurora.admin.ieeesbgcek.org"  // production - admin panel
 ];
 
 app.use(cors({
