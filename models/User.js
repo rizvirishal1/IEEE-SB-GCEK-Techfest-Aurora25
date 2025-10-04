@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
         eventId: { type: String },
         purchaseStatus: { type: String, default: "Verification Pending" }
     }],
-    EntryPassId: {
+    entryPassId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "EntryPass"
     },

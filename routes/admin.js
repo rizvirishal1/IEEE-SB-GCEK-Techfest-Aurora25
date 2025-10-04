@@ -250,7 +250,7 @@ adminRouter.get('/entryPassesForVerification', authenticateToken, async (req, re
         if (!admin) {
             return res.status(404).json({ error: "Admin not found" });
         }
-        const noOfEntryPassesBought = await EntryPass.countDocuments({});
+        const noOfEntryPassesBought = await EntryPass.countDocuments({ purchaseStatus: { $ne: "Rejected" } });
         const entryPassesForVerification = await EntryPass.find({ purchaseStatus: "Verification Pending" });
 
         return res.status(200).json({ entryPassesForVerification: entryPassesForVerification, noOfEntryPassesBought: noOfEntryPassesBought });
@@ -288,7 +288,7 @@ adminRouter.post('/verifyEntryPass/:ticketId', authenticateToken, async (req, re
             entryPass.rejectedAt = new Date();
             const user = await User.findById(entryPass.userId);
             if (user) {
-                user.EntryPassId = undefined;
+                user.entryPassId = undefined;
                 await user.save();
             }
             const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);

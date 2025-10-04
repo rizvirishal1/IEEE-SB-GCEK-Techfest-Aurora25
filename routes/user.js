@@ -52,8 +52,9 @@ userRouter.post('/buy-ticket', authenticateToken, upload.single("paymentScreensh
 
         // For Entry Pass
         if (type === "Entry Pass") {
-            const existingEntryPass = await EntryPass.findOne({ userId: userId });
-            if (existingEntryPass) {
+
+            const existingUnrejectedEntryPass = await EntryPass.findOne({ userId: userId, purchaseStatus: { $ne: "Rejected" } });
+            if (existingUnrejectedEntryPass) {
                 return res.status(400).json({ error: "User has already purchased an entry pass" });
             }
 
@@ -67,7 +68,7 @@ userRouter.post('/buy-ticket', authenticateToken, upload.single("paymentScreensh
 
             await newEntryPass.save();
 
-            user.EntryPassId = newEntryPass._id;
+            user.entryPassId = newEntryPass._id;
             await user.save();
             return res.status(200).json({ message: "Entry Pass purchased successfully" });
         }
@@ -99,6 +100,7 @@ userRouter.post('/buy-ticket', authenticateToken, upload.single("paymentScreensh
         return res.status(200).json({ message: "Ticket purchased successfully" });
 
     } catch (error) {
+        console.log(error)
         return res.status(500).json({ error: "Server error" });
     }
 });
@@ -120,9 +122,9 @@ userRouter.get('/entry-pass', authenticateToken, async (req, res) => {
     try {
         console.log("get request for Entry Pass details by a user")
         const userId = res.user._id;
-        const entryPass = await EntryPass.findOne({
-            userId: userId
-        });
+        const user = await User.findById(userId)
+        const entryPassId = user.entryPassId;
+        const entryPass = await EntryPass.findById(entryPassId);
         return res.status(200).json({ entryPass: entryPass });
     } catch (error) {
         console.error("Error fetching entry pass details:", error);
