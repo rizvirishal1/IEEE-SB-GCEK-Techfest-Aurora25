@@ -130,7 +130,7 @@ export default function UserDashboard() {
               <h3 className="text-xl font-semibold mb-4">Tickets</h3>
 
               {/* Fest Ticket section visible for users who didnt buy the fest ticket */}
-              {!userData.festTicket && (
+              {!userData.EntryPassId && (
                 <div className="p-4 bg-green-700/30 border border-green-500 rounded-lg flex flex-col items-start mb-6">
                   <p className="text-lg font-bold mb-3">
                     Entry Pass
@@ -154,7 +154,7 @@ export default function UserDashboard() {
               )}
 
               <div className="border border-white/40 p-4 rounded-lg mb-6">
-                <p className="text-lg font-medium mb-2">Entry Pass Status:</p>
+                <p className="text-lg font-medium mb-2">Entry Pass Purchase Status:</p>
                 <p className="ml-4">
                   Status:{" "}
                   <span className="font-medium text-yellow-300">

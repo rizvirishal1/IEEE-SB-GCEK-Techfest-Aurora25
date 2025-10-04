@@ -73,9 +73,9 @@ export default function OrderSummary() {
       ></div>
 
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center p-4">
-        <div className="bg-black/30 backdrop-blur-lg p-8 rounded-xl shadow-2xl w-full max-w-sm md:max-w-xl ">
+        <div className={` ${styles.orderSummary} bg-black/30 backdrop-blur-lg p-8 rounded-xl shadow-2xl w-full max-w-sm md:max-w-xl `}>
           <h1 className="text-3xl font-extrabold mb-8 text-white text-center">
-            Order Summary Page
+            Order Summary
           </h1>
 
           {ticketDetails.type ? (
