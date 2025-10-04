@@ -1,14 +1,17 @@
 import { useParams } from 'react-router-dom';
 import BGImg from "../../assets/images/BGfromPoster.png";
 import events from '../../data/events';
+import styles from "./eventdetails.module.scss";
+import { useNavigate } from 'react-router';
 
 const EventDetails = () => {
+  const navigate = useNavigate()
   const { id } = useParams();
   const event = events.find(event => event.id === id);
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-8 flex items-center justify-center"
       style={{ backgroundImage: `url(${BGImg})`, backgroundSize: "cover", backgroundPosition: "center" }}>
-      <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-lg shadow-2xl shadow-blue-500/20 p-6 sm:p-12 flex flex-col lg:flex-row max-w-7xl mx-auto  transition-all duration-300">
+      <div className={` ${styles.eventContainer} bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-lg shadow-2xl shadow-blue-500/20 p-6 sm:p-12 flex flex-col lg:flex-row max-w-7xl mx-auto  transition-all duration-300`}>
 
         {/* Left/Top Section */}
         <div className="lg:w-1/2 flex flex-col justify-center items-center lg:items-start text-center lg:text-left mb-8 lg:mb-0">
@@ -21,8 +24,27 @@ const EventDetails = () => {
               alt={event?.title}
               className="w-4/5 max-w-sm mb-6 rounded-lg"
             />
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 mb-6">
-              Register
+            <button
+              onClick={() => {
+                const authToken = localStorage.getItem("authToken");
+                if (!authToken) {
+                  navigate("/login");
+                  return;
+                }
+                navigate("/order-summary", {
+                  state: {
+                    ticket: {
+                      type: "Event Ticket",
+                      eventId: event.id,
+                      eventTitle: event.title,
+                      price: event.price,
+                      priceForIeeeMembers: event.priceForIeeeMembers
+                    },
+                  },
+                });
+              }}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 mb-6">
+              BUY TICKET
             </button>
           </div>
 
@@ -54,8 +76,27 @@ const EventDetails = () => {
           </p>
 
           {/* Register button for larger screens */}
-          <button className="hidden lg:block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 mt-8">
-            Register
+          <button
+            onClick={() => {
+              const authToken = localStorage.getItem("authToken");
+              if (!authToken) {
+                navigate("/login");
+                return;
+              }
+              navigate("/order-summary", {
+                state: {
+                  ticket: {
+                    type: "Event Ticket",
+                    eventId: event.id,
+                    eventTitle: event.title,
+                    price: event.price,
+                    priceForIeeeMembers: event.priceForIeeeMembers
+                  },
+                },
+              });
+            }}
+            className="hidden lg:block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 mt-8">
+            BUY TICKET
           </button>
         </div>
 

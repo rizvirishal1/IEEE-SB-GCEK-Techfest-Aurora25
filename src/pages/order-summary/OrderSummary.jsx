@@ -28,6 +28,11 @@ export default function OrderSummary() {
     ticket.append("paymentScreenshot", paymentFile);
     ticket.append("type", ticketDetails.type);
     ticket.append("isEarlyBird", ticketDetails.isEarlyBird);
+    ticket.append("eventId", ticketDetails.eventId);
+    ticket.append("eventTitle", ticketDetails.eventTitle);
+    ticket.append("price", ticketDetails.price);
+    ticket.append("priceForIeeeMembers", ticketDetails.priceForIeeeMembers);
+
 
     try {
       setIsSubmitting(true);
@@ -87,20 +92,44 @@ export default function OrderSummary() {
                 <span className="font-medium">Ticket Type:</span>{" "}
                 {ticketDetails.type}
               </p>
+
+              {/* Event Title if the Ticket Type is Event Ticket */}
+              {ticketDetails.type === "Event Ticket" && ticketDetails.eventId && (
+                <p className="mb-2">
+                  <span className="font-medium">Event:</span> {ticketDetails.eventTitle}
+                </p>
+              )}
               <p className="mb-4">
                 <span className="font-medium">Price:</span><br />
-                <span>College Students: <span style={{ fontFamily: "Arial" }}>&#8377;</span> 50</span><br />
-                <span>School Students: Free ( should upload school ID card )</span>
-
               </p>
 
+              {/* Price details for Entry Pass */}
+              {
+                ticketDetails.type === "Entry Pass" && <div>
+                  <span>College Students: <span style={{ fontFamily: "Arial" }}>&#8377;</span> 50</span><br />
+                  <span>School Students: Free ( should upload school ID card )</span>
+                </div>
+              }
+
+              {/* Price details for Event Ticket */}
+              {
+                ticketDetails.type === "Event Ticket" && ticketDetails.eventId && (
+                  <div>
+                    <span>IEEE Members: <span style={{ fontFamily: "Arial" }}>&#8377;</span> {ticketDetails.priceForIeeeMembers}</span><br />
+                    <span>Non-IEEE Members: <span style={{ fontFamily: "Arial" }}>&#8377;</span> {ticketDetails.price}</span>
+                  </div>
+                )
+              }
+
+
+              <br />
               <div className={`${styles.qrCodesection} flex flex-col items-center mb-6 p-4 border border-white/40 rounded-md bg-white/10`}>
                 <img src={gpayQr} alt="GPay QR Code" className="w-full h-full object-contain" />
 
                 <p className="mt-2 text-lg font-semibold text-white">
                   Scan to Pay
                 </p>
-                <p>85929 36392</p>
+                <p >85929 36392</p>
               </div>
 
               <form
@@ -113,9 +142,14 @@ export default function OrderSummary() {
                 >
                   Upload Payment Screenshot:
                 </label>
-                <span className="text-sm text-white/70">
-                  (School students can upload their school ID card)
-                </span>
+
+                {/* Info for School Students If the Ticket Type is Entry Pass */}
+                {ticketDetails.type === "Entry Pass" && (
+                  <span className="text-sm text-white/70">
+                    (School students can upload their school ID card)
+                  </span>
+                )}
+
                 <input
                   type="file"
                   accept="image/*"
@@ -140,7 +174,7 @@ export default function OrderSummary() {
             </p>
           )}
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }

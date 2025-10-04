@@ -3,6 +3,7 @@ import events from "../../data/events";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import BGImage from "../../assets/images/BGfromPoster.png";
+import styles from "./events.module.scss";
 
 export default function Events() {
   const [filteredEvents, setFilteredEvents] = useState(events);
@@ -59,7 +60,7 @@ export default function Events() {
       {/* MODIFIED: Added 'justify-center' to vertically center the content */}
       <div className="relative z-10 flex flex-col items-center justify-center py-10 px-5 min-h-screen">
         {/* THIS IS THE CONTAINER DIV that now holds both the UI and the events list */}
-        <div className="bg-black/40  backdrop-blur-lg p-8 rounded-[20px] shadow-2xl w-full lg:h-[85vh] mt-[7vh]  flex flex-col items-center">
+        <div className={`bg-black/40  backdrop-blur-lg p-8 rounded-[20px] shadow-2xl w-full lg:h-[85vh] mt-[7vh]  flex flex-col items-center`}>
           <input
             type="search"
             className="min-w-[250px] h-12 mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-inner bg-white/70 text-gray-800 placeholder-gray-500 transition duration-150"
@@ -103,30 +104,30 @@ export default function Events() {
             <span
               id="all"
               className={`p-2 w-1/3 text-center rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filterQuery === "all"
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "text-gray-200 hover:bg-white/20"
+                ? "bg-blue-600 text-white shadow-md"
+                : "text-gray-200 hover:bg-white/20"
                 }`}
               onClick={() => filter("all")}
             >
               All
             </span>
             <span
-              className={`p-2 w-1/3 text-center rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filterQuery === "pre"
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "text-gray-200 hover:bg-white/20"
+              className={`p-2 w-1/3 text-center rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filterQuery === "workshop"
+                ? "bg-blue-600 text-white shadow-md"
+                : "text-gray-200 hover:bg-white/20"
                 }`}
-              onClick={() => filter("pre")}
+              onClick={() => filter("workshop")}
             >
-              Pre-Events
+              Workshops
             </span>
             <span
-              className={`p-2 w-1/3 text-center rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filterQuery === "main"
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "text-gray-200 hover:bg-white/20"
+              className={`p-2 w-1/3 text-center rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filterQuery === "competition"
+                ? "bg-blue-600 text-white shadow-md"
+                : "text-gray-200 hover:bg-white/20"
                 }`}
-              onClick={() => filter("main")}
+              onClick={() => filter("competition")}
             >
-              Main Events
+              Competitions
             </span>
           </div>
 
