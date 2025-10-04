@@ -2,6 +2,7 @@
 import bcrypt from 'bcryptjs';
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import twilio from "twilio"
 //db
 import Admin from '../models/Admin.js';
 import User from '../models/User.js';
@@ -40,6 +41,7 @@ adminRouter.post("/login", async (req, res) => {
 
         return res.status(200).json({ message: "Login successful", token: token });
     } catch (err) {
+        console.log(err)
         return res.status(500).json({ error: "Server error" });
     }
 });
@@ -104,8 +106,32 @@ adminRouter.post('/verifyMembership/:userId', authenticateToken, async (req, res
         }
 
         user.IEEEMemberStatus = status;
+
+
+
         if (status === "Rejected" && reason) {
+
+            if (user.rejectedAt && Date.now() - user.rejectedAt < 1000) {
+                return res.status(400).json({ error: "Too many rejections in a short time. Please wait before rejecting again." });
+            }
+
             user.reasonForMembershipRejection = reason;
+            user.rejectedAt = new Date();
+            const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+            if (user.mobile) {
+                const message = `Dear ${user.name},\n
+Your IEEE Membership was rejected.\n
+Reason: ${reason || "N/A"}\n
+Please contact the admin for further details.\n
+Ajay E. K. - 85929 36392\n
+- IEEE Aurora Team`;
+
+                await client.messages.create({
+                    body: message,
+                    messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID,
+                    to: "+91" + user.mobile,
+                });
+            }
         }
 
         await user.save();
@@ -178,11 +204,34 @@ adminRouter.post('/verifyFestTicket/:ticketId', authenticateToken, async (req, r
         }
         festTicket.purchaseStatus = status;
         if (status === "Rejected" && reason) {
+
+            if (festTicket.rejectedAt && Date.now() - festTicket.rejectedAt < 1000) {
+                return res.status(400).json({ error: "Too many rejections in a short time. Please wait before rejecting again." });
+            }
+
             festTicket.reasonForRejection = reason;
+            festTicket.rejectedAt = new Date();
             const user = await User.findById(festTicket.userId);
             if (user) {
                 user.festTicket = undefined;
                 await user.save();
+            }
+            const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+            if (user.mobile) {
+
+                const message = `Dear ${user.name},\n
+Your fest ticket purchase was rejected.\n
+Reason: ${reason || "N/A"}\n
+Please contact the admin for further details.\n
+Ajay E. K. - 85929 36392\n
+- IEEE Aurora Team`;
+
+                await client.messages.create({
+                    body: message,
+                    messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID,
+                    to: "+91" + user.mobile,
+                });
+
             }
         }
         await festTicket.save();

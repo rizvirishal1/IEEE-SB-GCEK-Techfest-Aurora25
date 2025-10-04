@@ -21,10 +21,13 @@ const userSchema = new mongoose.Schema({
     },
     IEEEMemberStatus: {
         type: String,
-        default: "Verification Pending"
+        enum: ["Verification Pending", "IEEE Member", "Non-IEEE Member", "Rejected"],
     },
     reasonForMembershipRejection: {
         type: String
+    },
+    rejectedAt: {
+        type: Date
     },
     festTicket: {
         festTicketId: { type: mongoose.Schema.Types.ObjectId, ref: "FestTicket" },
@@ -33,6 +36,20 @@ const userSchema = new mongoose.Schema({
         eventId: { type: String },
         purchaseStatus: { type: String, default: "Verification Pending" }
     }],
+    EntryPassId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "EntryPass"
+    },
+    PasswordResetRequestAt: {
+        type: Date
+    },
+    otpForPasswordReset: {
+        otp: { type: String },
+        createdAt: { type: Date },
+        verifiedAt: { type: Date }
+
+    },
+
 })
 
 userSchema.pre("save", async function (next) {
