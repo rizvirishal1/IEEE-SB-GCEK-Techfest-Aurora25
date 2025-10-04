@@ -11,7 +11,7 @@ export default function UserDashboard() {
   const location = useLocation();
 
   const [userData, setUserData] = useState(null);
-  const [festTicket, setFestTicket] = useState(null);
+  const [entryPass, setEntryPass] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -32,12 +32,12 @@ export default function UserDashboard() {
         });
         setUserData(response.data);
 
-        const festTicketResponse = await api.get("/user/fest-ticket", {
+        const entryPassResponse = await api.get("/user/entry-pass", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setFestTicket(festTicketResponse.data || null);
+        setEntryPass(entryPassResponse.data.entryPass || null);
 
       } catch (error) {
         toast.error(
@@ -120,7 +120,7 @@ export default function UserDashboard() {
                     <span className="font-medium">{userData.reasonForMembershipRejection}</span>
                   </p>
                     <p>For clarification contact us:</p>
-                    <span className="font-medium">Person: 8875861225</span>
+                    <span className="font-medium">Ajay E.K. : 85929 36392</span>
                   </div>
                 )}
               </div>
@@ -133,7 +133,7 @@ export default function UserDashboard() {
               {!userData.festTicket && (
                 <div className="p-4 bg-green-700/30 border border-green-500 rounded-lg flex flex-col items-start mb-6">
                   <p className="text-lg font-bold mb-3">
-                    Grab your Fest Ticket!
+                    Entry Pass
                   </p>
                   {/* .buyEarlyBirdTicketBtn -> bg-green-600, hover:bg-green-700, min-w-48, p-3, rounded-lg */}
                   <button
@@ -142,46 +142,37 @@ export default function UserDashboard() {
                       navigate("/order-summary", {
                         state: {
                           ticket: {
-                            type: "festTicket",
-                            isEarlyBird: true,
+                            type: "Entry Pass",
                           },
                         },
                       });
                     }}
                   >
-                    GET EARLY BIRD TICKET
+                    BUY TICKET
                   </button>
                 </div>
               )}
 
               <div className="border border-white/40 p-4 rounded-lg mb-6">
-                <p className="text-lg font-medium mb-2">Fest Ticket Status:</p>
-                <p className="ml-4">
-                  Type:{" "}
-                  <span className="font-medium">
-                    {
-                      festTicket ? (festTicket.isEarlyBird ? "Early Bird" : "Regular") : "Not Purchased"
-                    }
-                  </span>
-                </p>
+                <p className="text-lg font-medium mb-2">Entry Pass Status:</p>
                 <p className="ml-4">
                   Status:{" "}
                   <span className="font-medium text-yellow-300">
-                    {festTicket ? festTicket.purchaseStatus : "Not Purchased"}
+                    {entryPass ? entryPass.purchaseStatus : "Not Purchased"}
                   </span>
                 </p>
-                {festTicket && festTicket.reasonForRejection && (
+                {entryPass && entryPass.reasonForRejection && (
                   <div>
                     <p className="ml-4 text-red-400">
                       Reason for Rejection:{" "}
                       <span className="font-medium">
-                        {festTicket.reasonForRejection}
+                        {entryPass.reasonForRejection}
                       </span>
                     </p>
                     <p className="ml-4 text-red-400">
                       For clarification contact us:{" "}
                       <span className="font-medium">
-                        Person: 8894561230
+                        Ajay E.K. : 85929 36392
                       </span>
                     </p>
                   </div>

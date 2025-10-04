@@ -5,6 +5,7 @@
     z-index: 99;
     width: 50px;
     cursor: pointer;
+    filter: brightness(0) saturate(100%) invert(67%) sepia(86%) saturate(650%) hue-rotate(171deg) brightness(108%) contrast(89%);
 }
 
 .layout {

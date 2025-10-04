@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import { use, useState } from "react";
 import { toast } from "react-toastify";
 import BGfromPoster from "../../assets/images/BGfromPoster.png";
+import gpayQr from "../../assets/images/gpayqrcode.jpg"
+import styles from "./ordersummary.module.scss";
 
 export default function OrderSummary() {
   const location = useLocation();
@@ -29,7 +31,7 @@ export default function OrderSummary() {
 
     try {
       setIsSubmitting(true);
-      await api.post("/user/buy-fest-ticket", ticket, {
+      await api.post("/user/buy-ticket", ticket, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -86,25 +88,19 @@ export default function OrderSummary() {
                 {ticketDetails.type}
               </p>
               <p className="mb-4">
-                <span className="font-medium">Price:</span>{" "}
-                {ticketDetails.offerType === "early-bird" ? "$50" : "$100"}
+                <span className="font-medium">Price:</span><br />
+                <span>College Students: <span style={{ fontFamily: "Arial" }}>&#8377;</span> 50</span><br />
+                <span>School Students: Free</span>
+
               </p>
 
-              <h3 className="font-medium mb-1">Ticket Details:</h3>
-              <p className="text-sm italic mb-6 text-white/80">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Quisquam excepturi voluptates dolorum necessitatibus, deserunt
-                veniam voluptatibus consequuntur? Tempore, consequatur, ipsam
-                iusto, odit quod suscipit sapiente rem aliquid dicta ea ut.
-              </p>
+              <div className={`${styles.qrCodesection} flex flex-col items-center mb-6 p-4 border border-white/40 rounded-md bg-white/10`}>
+                <img src={gpayQr} alt="GPay QR Code" className="w-full h-full object-contain" />
 
-              <div className="qrCodesection flex flex-col items-center mb-6 p-4 border border-white/40 rounded-md bg-white/10">
-                <div className="qrCode w-[150px] h-[150px] bg-teal-300 flex items-center justify-center text-gray-800 text-sm font-semibold border-2 border-dashed border-gray-800">
-                  Gpay qrcode here
-                </div>
                 <p className="mt-2 text-lg font-semibold text-white">
                   Scan to Pay
                 </p>
+                <p>85929 36392</p>
               </div>
 
               <form

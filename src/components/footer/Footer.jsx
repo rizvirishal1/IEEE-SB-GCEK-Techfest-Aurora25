@@ -106,19 +106,19 @@ export default function Footer() {
                 </p>
                 <p className="flex items-center gap-2">
                   <Phone sx={{ fontSize: 16 }} className="text-gray-500" />
-                  Person 2 : 0987654321
+                  Parvathi : 89213 75020
                 </p>
                 <p className="flex items-center gap-2">
                   <Phone sx={{ fontSize: 16 }} className="text-gray-500" />
-                  Person 3 : 7531984260
+                  Yadunand: 98958 42152
                 </p>
                 <p className="flex items-center gap-2">
                   <Email sx={{ fontSize: 16 }} className="text-gray-500" />
                   <a
-                    href="mailto:example@gcek.ac.in"
+                    href="mailto:ieeesb@gcek.ac.in"
                     className="hover:text-white transition-colors"
                   >
-                    email@gcek.ac.in
+                    ieeesb@gcek.ac.in
                   </a>
                 </p>
               </div>

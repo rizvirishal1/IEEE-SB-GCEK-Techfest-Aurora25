@@ -60,9 +60,6 @@ export default function Events() {
       <div className="relative z-10 flex flex-col items-center justify-center py-10 px-5 min-h-screen">
         {/* THIS IS THE CONTAINER DIV that now holds both the UI and the events list */}
         <div className="bg-black/40  backdrop-blur-lg p-8 rounded-[20px] shadow-2xl w-full lg:h-[85vh] mt-[7vh]  flex flex-col items-center">
-          <h1 className="text-4xl font-extrabold mb-8 text-white text-center">
-            Upcoming Events
-          </h1>
           <input
             type="search"
             className="min-w-[250px] h-12 mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-inner bg-white/70 text-gray-800 placeholder-gray-500 transition duration-150"
@@ -105,31 +102,28 @@ export default function Events() {
           <div className="w-full max-w-sm md:max-w-md lg:max-w-lg  flex items-center justify-around h-14 bg-white/10 rounded-xl p-1 shadow-inner ">
             <span
               id="all"
-              className={`p-2 w-1/3 text-center rounded-lg font-semibold cursor-pointer transition-all duration-300 ${
-                filterQuery === "all"
+              className={`p-2 w-1/3 text-center rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filterQuery === "all"
                   ? "bg-blue-600 text-white shadow-md"
                   : "text-gray-200 hover:bg-white/20"
-              }`}
+                }`}
               onClick={() => filter("all")}
             >
               All
             </span>
             <span
-              className={`p-2 w-1/3 text-center rounded-lg font-semibold cursor-pointer transition-all duration-300 ${
-                filterQuery === "pre"
+              className={`p-2 w-1/3 text-center rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filterQuery === "pre"
                   ? "bg-blue-600 text-white shadow-md"
                   : "text-gray-200 hover:bg-white/20"
-              }`}
+                }`}
               onClick={() => filter("pre")}
             >
               Pre-Events
             </span>
             <span
-              className={`p-2 w-1/3 text-center rounded-lg font-semibold cursor-pointer transition-all duration-300 ${
-                filterQuery === "main"
+              className={`p-2 w-1/3 text-center rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filterQuery === "main"
                   ? "bg-blue-600 text-white shadow-md"
                   : "text-gray-200 hover:bg-white/20"
-              }`}
+                }`}
               onClick={() => filter("main")}
             >
               Main Events
