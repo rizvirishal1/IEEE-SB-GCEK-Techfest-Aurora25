@@ -1,7 +1,7 @@
 import api from "../../api";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import { useState } from "react";
 import BGfromPoster from "../../assets/images/BGfromPoster.png";
 
@@ -107,12 +107,12 @@ export default function Login() {
                 {loading ? "Logging in..." : "Login"}
               </button>
 
-              <a
-                href="/forgot-password"
+              <Link
+                to="/forgot-password"
                 className="text-white hover:text-blue-200 text-sm transition duration-150"
               >
                 Forgot your password?
-              </a>
+              </Link>
               <p className="text-sm text-white/90">
                 Don't have an account?{" "}
                 <a

@@ -14,6 +14,7 @@ import Home from "./pages/home/Home.jsx";
 import Login from "./pages/login/Login.jsx";
 import OrderSummary from "./pages/order-summary/OrderSummary.jsx";
 import Register from "./pages/register/Register.jsx";
+import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
 import UserDashboard from "./pages/user-dashboard/UserDashboard.jsx";
 //styles
 import "./App.css";
@@ -70,6 +71,14 @@ function App() {
             element={
               <Layout>
                 <Login />
+              </Layout>
+            }
+          />
+          <Route
+            path="/forgot-password"
+            element={
+              <Layout>
+                <ForgotPassword />
               </Layout>
             }
           />
