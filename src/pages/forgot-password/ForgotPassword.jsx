@@ -29,7 +29,7 @@ export default function ForgotPassword() {
     setIsOtpSent(true);
     setIsWaitingforResend(true);
     try {
-      await api.post("/verify-mobile/generate-otp", {
+      await api.post("/user/generate-otp-for-password-reset", {
         mobile: formData.mobile,
       });
     } catch (error) {
@@ -41,9 +41,10 @@ export default function ForgotPassword() {
 
   const handleOtpVerification = async () => {
     try {
-      await api.post("/verify-mobile/verify-otp", {
+      await api.post("/user/verify-otp-for-password-reset", {
         mobile: formData.mobile,
         otp: formData.otp,
+
       });
     } catch (error) {
       alert("Invalid OTP");
@@ -72,9 +73,9 @@ export default function ForgotPassword() {
     }
 
     try {
-      await api.post("/reset-password", {
+      await api.post("user/reset-password", {
         mobile: formData.mobile,
-        password: formData.password,
+        newPassword: formData.password,
       });
       toast.success("Password reset successful! You can now log in.");
       setFormData({
@@ -168,9 +169,8 @@ export default function ForgotPassword() {
 
             {/* OTP Verification Input */}
             <div
-              className={`flex flex-col gap-2 w-full transition-all duration-300 ${
-                !isOtpSent ? "hidden" : "block"
-              }`}
+              className={`flex flex-col gap-2 w-full transition-all duration-300 ${!isOtpSent ? "hidden" : "block"
+                }`}
             >
               <label
                 htmlFor="otp"
