@@ -9,6 +9,7 @@ import User from '../models/User.js';
 import authenticateToken from '../middlewares/auth.js';
 import FestTicket from '../models/FestTicket.js';
 import EventTicket from '../models/EventTicket.js';
+import EntryPass from '../models/EntryPass.js';
 
 const adminRouter = express.Router();
 
@@ -236,6 +237,80 @@ Ajay E. K. - 85929 36392\n
         }
         await festTicket.save();
         return res.status(200).json({ message: "Fest Ticket status updated successfully" });
+    }
+    catch (err) {
+        return res.status(500).json({ error: "Server Error" })
+    }
+})
+
+adminRouter.get('/entryPassesForVerification', authenticateToken, async (req, res) => {
+    try {
+        const adminId = res.user._id;
+        const admin = await Admin.findById(adminId);
+        if (!admin) {
+            return res.status(404).json({ error: "Admin not found" });
+        }
+        const noOfEntryPassesBought = await EntryPass.countDocuments({});
+        const entryPassesForVerification = await EntryPass.find({ purchaseStatus: "Verification Pending" });
+
+        return res.status(200).json({ entryPassesForVerification: entryPassesForVerification, noOfEntryPassesBought: noOfEntryPassesBought });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Server Error" })
+    }
+})
+
+adminRouter.post('/verifyEntryPass/:ticketId', authenticateToken, async (req, res) => {
+    try {
+        const adminId = res.user._id;
+        const admin = await Admin.findById(adminId);
+        if (!admin) {
+            return res.status(404).json({ error: "Admin not found" });
+        }
+        const { ticketId } = req.params;
+        const { status } = req.body;
+        const { reason } = req.body;
+        if (!["Verified", "Rejected"].includes(status)) {
+            return res.status(400).json({ error: "Invalid status" });
+        }
+        const entryPass = await EntryPass.findById(ticketId);
+        if (!entryPass) {
+            return res.status(404).json({ error: "Entry Pass not found" });
+        }
+        entryPass.purchaseStatus = status;
+        if (status === "Rejected" && reason) {
+
+            if (entryPass.rejectedAt && Date.now() - entryPass.rejectedAt < 1000) {
+                return res.status(400).json({ error: "Too many rejections in a short time. Please wait before rejecting again." });
+            }
+
+            entryPass.reasonForRejection = reason;
+            entryPass.rejectedAt = new Date();
+            const user = await User.findById(entryPass.userId);
+            if (user) {
+                user.EntryPassId = undefined;
+                await user.save();
+            }
+            const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+            if (user.mobile) {
+
+                const message = `Dear ${user.name},\n
+Your Entry Pass purchase was rejected.\n
+Reason: ${reason || "N/A"}\n
+Please contact the admin for further details.\n
+Ajay E. K. - 85929 36392\n
+- IEEE Aurora Team`;
+
+                await client.messages.create({
+                    body: message,
+                    messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID,
+                    to: "+91" + user.mobile,
+                });
+
+            }
+        }
+        await entryPass.save();
+        return res.status(200).json({ message: "Entry Pass status updated successfully" });
     }
     catch (err) {
         return res.status(500).json({ error: "Server Error" })
