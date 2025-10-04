@@ -1,9 +1,17 @@
 import mongoose from "mongoose";
 
 const EventTicketSchema = new mongoose.Schema({
-    userId: {
+    userMongoId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        required: true
+    },
+    userName: {
+        type: String,
+        required: true
+    },
+    mobile: {
+        type: String,
         required: true
     },
     eventId: {
@@ -17,6 +25,12 @@ const EventTicketSchema = new mongoose.Schema({
     },
     reasonForRejection: {
         type: String
+    },
+    rejectedAt: {
+        type: Date
+    },
+    purchasedAt: {
+        type: Date
     },
     paymentScreenshot: {
         type: String

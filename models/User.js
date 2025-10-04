@@ -30,10 +30,11 @@ const userSchema = new mongoose.Schema({
         type: Date
     },
     festTicket: {
-        festTicketId: { type: mongoose.Schema.Types.ObjectId, ref: "FestTicket" },
+        festTicketMongoId: { type: mongoose.Schema.Types.ObjectId, ref: "FestTicket" },
     },
     eventTickets: [{
         eventId: { type: String },
+        eventTicketMongoId: { type: String },
         purchaseStatus: { type: String, default: "Verification Pending" }
     }],
     entryPassId: {

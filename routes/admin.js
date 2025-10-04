@@ -74,8 +74,8 @@ adminRouter.post("/create", async (req, res) => {
 
 adminRouter.get('/verifyMembership', authenticateToken, async (req, res) => {
     try {
-        const userId = res.user._id;
-        const admin = await Admin.findById(userId);
+        const userMongoId = res.user._id;
+        const admin = await Admin.findById(userMongoId);
         if (!admin) {
             return res.status(404).json({ error: "Admin not found" });
         }
@@ -88,20 +88,20 @@ adminRouter.get('/verifyMembership', authenticateToken, async (req, res) => {
     }
 });
 
-adminRouter.post('/verifyMembership/:userId', authenticateToken, async (req, res) => {
+adminRouter.post('/verifyMembership/:userMongoId', authenticateToken, async (req, res) => {
     try {
         const adminId = res.user._id;
         const admin = await Admin.findById(adminId);
         if (!admin) {
             return res.status(404).json({ error: "Admin not found" });
         }
-        const { userId } = req.params;
+        const { userMongoId } = req.params;
         const { status } = req.body;
         const { reason } = req.body;
         if (!["Verified", "Rejected"].includes(status)) {
             return res.status(400).json({ error: "Invalid status" });
         }
-        const user = await User.findById(userId);
+        const user = await User.findById(userMongoId);
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
@@ -136,7 +136,7 @@ Ajay E. K. - 85929 36392\n
         }
 
         await user.save();
-        const festTicket = await FestTicket.findOne({ userId: userId });
+        const festTicket = await FestTicket.findOne({ userMongoId: userMongoId });
         if (festTicket) {
             festTicket.IEEEMemberStatus = status;
             await festTicket.save();
@@ -212,7 +212,7 @@ adminRouter.post('/verifyFestTicket/:ticketId', authenticateToken, async (req, r
 
             festTicket.reasonForRejection = reason;
             festTicket.rejectedAt = new Date();
-            const user = await User.findById(festTicket.userId);
+            const user = await User.findById(festTicket.userMongoId);
             if (user) {
                 user.festTicket = undefined;
                 await user.save();
@@ -286,7 +286,7 @@ adminRouter.post('/verifyEntryPass/:ticketId', authenticateToken, async (req, re
 
             entryPass.reasonForRejection = reason;
             entryPass.rejectedAt = new Date();
-            const user = await User.findById(entryPass.userId);
+            const user = await User.findById(entryPass.userMongoId);
             if (user) {
                 user.entryPassId = undefined;
                 await user.save();
@@ -316,5 +316,102 @@ Ajay E. K. - 85929 36392\n
         return res.status(500).json({ error: "Server Error" })
     }
 })
+
+// Event Ticket verification...
+// approve or reject an event ticket purchase
+adminRouter.post('/verifyEventTicket/:ticketId', authenticateToken, async (req, res) => {
+    try {
+
+        // Validate admin
+        const adminId = res.user._id;
+        const admin = await Admin.findById(adminId);
+        if (!admin) {
+            return res.status(404).json({ error: "Admin not found" });
+        }
+
+        // Extract parameters
+        const { eventTicketMongoId } = req.params;
+        const {
+            status,
+            reasonForRejection,
+        } = req.body;
+
+        // Validate parameters
+        if (!["Verified", "Rejected"].includes(status)) {
+            return res.status(400).json({ error: "Invalid status" });
+        }
+
+        const eventTicket = await EventTicket.findById(eventTicketMongoId);
+        if (!eventTicket) {
+            return res.status(404).json({ error: "Event Ticket not found" });
+        }
+
+        const user = await User.findById(eventTicket.userMongoId);
+
+        eventTicket.purchaseStatus = status;
+        if (status === "Rejected" && reasonForRejection) {
+
+            if (eventTicket.rejectedAt && Date.now() - eventTicket.rejectedAt < 1000) {
+                return res.status(400).json({ error: "Too many rejections in a short time. Please wait before rejecting again." });
+            }
+            eventTicket.reasonForRejection = reasonForRejection;
+            eventTicket.rejectedAt = new Date();
+
+            user.eventTickets = user.eventTickets.filter(et => et.eventTicketMongoId.toString() !== eventTicketMongoId);
+
+            const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+            const message = `Dear ${user.name},\n
+Your event ticket purchase for the event: ${eventTicket.eventTitle} was rejected.
+Reason: ${reasonForRejection || "N/A"}
+Any amount paid will be refunded soon.
+Please contact the admin for further details.
+Ajay E. K. - 85929 36392
+- IEEE Aurora Team`;
+            await client.messages.create({
+                body: message,
+                messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID,
+                to: "+91" + user.mobile,
+            });
+
+
+        } else {
+            user.eventTickets = user.eventTickets.map(et => {
+                if (et.eventTicketMongoId.toString() === eventTicketMongoId) {
+                    et.purchaseStatus = "Verified";
+                }
+            });
+        }
+
+        await eventTicket.save();
+        await user.save();
+
+        return res.status(200).json({ message: "Event Ticket status updated successfully" });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Server Error" });
+    }
+});
+
+// get unverified event tickets for verification
+adminRouter.get('/unverifiedEventTickets', authenticateToken, async (req, res) => {
+    try {
+        // Validate admin
+        const adminId = res.user._id;
+        const admin = await Admin.findById(adminId);
+        if (!admin) {
+            return res.status(404).json({ error: "Admin not found" });
+        }
+
+        const unverifiedEventTickets = await EventTicket.find({ purchaseStatus: "Verification Pending" });
+
+        return res.status(200).json(unverifiedEventTickets);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Server Error" });
+    }
+});
+
+
 
 export default adminRouter;

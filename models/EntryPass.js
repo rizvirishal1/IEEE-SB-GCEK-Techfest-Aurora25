@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const entryPassSchema = new mongoose.Schema({
-    userId: {
+    userMongoId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true

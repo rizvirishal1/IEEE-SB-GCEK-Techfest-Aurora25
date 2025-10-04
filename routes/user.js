@@ -7,6 +7,7 @@ import twilio from "twilio"
 
 //dbs
 import EntryPass from '../models/EntryPass.js';
+import EventTicket from '../models/EventTicket.js';
 import FestTicket from '../models/FestTicket.js';
 import User from "../models/User.js";
 
@@ -18,8 +19,8 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 userRouter.get('/dashboard', authenticateToken, async (req, res) => {
     try {
-        const userId = res.user._id;
-        const user = await User.findById(userId);
+        const userMongoId = res.user._id;
+        const user = await User.findById(userMongoId);
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
@@ -33,8 +34,8 @@ userRouter.get('/dashboard', authenticateToken, async (req, res) => {
 
 userRouter.post('/buy-ticket', authenticateToken, upload.single("paymentScreenshot"), async (req, res) => {
     try {
-        const userId = res.user._id;
-        const user = await User.findById(userId);
+        const userMongoId = res.user._id;
+        const user = await User.findById(userMongoId);
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
@@ -53,13 +54,13 @@ userRouter.post('/buy-ticket', authenticateToken, upload.single("paymentScreensh
         // For Entry Pass
         if (type === "Entry Pass") {
 
-            const existingUnrejectedEntryPass = await EntryPass.findOne({ userId: userId, purchaseStatus: { $ne: "Rejected" } });
+            const existingUnrejectedEntryPass = await EntryPass.findOne({ userMongoId: userMongoId, purchaseStatus: { $ne: "Rejected" } });
             if (existingUnrejectedEntryPass) {
                 return res.status(400).json({ error: "User has already purchased an entry pass" });
             }
 
             const newEntryPass = new EntryPass({
-                userId: userId,
+                userMongoId: userMongoId,
                 userName: user.name,
                 mobile: user.mobile,
                 purchaseStatus: "Verification Pending",
@@ -73,13 +74,50 @@ userRouter.post('/buy-ticket', authenticateToken, upload.single("paymentScreensh
             return res.status(200).json({ message: "Entry Pass purchased successfully" });
         }
 
-        const existingTicket = await FestTicket.findOne({ userId: userId });
+        // For Event Ticket
+        else if (type === "Event Ticket") {
+
+            // extract parameters
+            const eventId = req.body.eventId;
+            const eventTitle = req.body.eventTitle;
+            const price = req.body.price;
+            const priceForIeeeMembers = req.body.priceForIeeeMembers;
+
+            //validate parameters
+            if (!eventId || !eventTitle || !price || !priceForIeeeMembers) {
+                return res.status(400).json({ error: "All fields are required" });
+            }
+
+            const existingUnrejectedEvent = await EventTicket.findOne({ userMongoId: userMongoId, eventId: eventId, purchaseStatus: { $ne: "Rejected" } });
+            if (existingUnrejectedEvent) {
+                return res.status(400).json({ error: `User has already purchased an event ticket for the event: ${eventTitle}` });
+            }
+
+            const newEventTicket = new EventTicket({
+                userMongoId: userMongoId,
+                userName: user.name,
+                mobile: user.mobile,
+                eventId: eventId,
+                purchasedAt: new Date(),
+                purchaseStatus: "Verification Pending",
+                paymentScreenshot: screenshotUrl,
+            });
+
+            await newEventTicket.save();
+
+            user.eventTickets.push({ eventId: eventId, eventTicketMongoId: newEventTicket._id, purchaseStatus: "Verification Pending" });
+            await user.save();
+            return res.status(200).json({ message: "Event Ticket purchased successfully" });
+
+        }
+
+        const existingTicket = await FestTicket.findOne({ userMongoId: userMongoId });
         if (existingTicket) {
             return res.status(400).json({ error: "User has already purchased a fest ticket" });
         }
 
         const newFestTicket = new FestTicket({
-            userId: userId,
+            userMongoId: userMongoId,
             userName: user.name,
             mobile: user.mobile,
             isEarlyBird: isEarlyBird,
@@ -94,7 +132,7 @@ userRouter.post('/buy-ticket', authenticateToken, upload.single("paymentScreensh
 
         await newFestTicket.save();
 
-        user.festTicket = { festTicketId: newFestTicket._id };
+        user.festTicket = { festTicketMongoId: newFestTicket._id };
         await user.save();
 
         return res.status(200).json({ message: "Ticket purchased successfully" });
@@ -108,9 +146,9 @@ userRouter.post('/buy-ticket', authenticateToken, upload.single("paymentScreensh
 userRouter.get('/fest-ticket', authenticateToken, async (req, res) => {
     try {
         console.log("get request for Fest Ticket details by a user")
-        const userId = res.user._id;
+        const userMongoId = res.user._id;
         const festTicket = await FestTicket.findOne({
-            userId: userId
+            userMongoId: userMongoId
         });
         return res.status(200).json(festTicket);
     } catch (error) {
@@ -121,8 +159,8 @@ userRouter.get('/fest-ticket', authenticateToken, async (req, res) => {
 userRouter.get('/entry-pass', authenticateToken, async (req, res) => {
     try {
         console.log("get request for Entry Pass details by a user")
-        const userId = res.user._id;
-        const user = await User.findById(userId)
+        const userMongoId = res.user._id;
+        const user = await User.findById(userMongoId)
         const entryPassId = user.entryPassId;
         const entryPass = await EntryPass.findById(entryPassId);
         return res.status(200).json({ entryPass: entryPass });
