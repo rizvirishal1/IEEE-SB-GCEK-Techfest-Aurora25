@@ -28,10 +28,10 @@ export default function About() {
           IEEE SB GCEK
         </h2>
         <p className="text-justify px-4 sm:px-8 md:px-12 text-lg">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem
-          perspiciatis amet neque repellat obcaecati numquam, ullam magnam
-          libero fuga incidunt voluptatem, voluptates possimus reiciendis natus
-          perferendis vel fugit aliquid? Ad.
+          The IEEE Student Branch at Govt. College of Engineering, Kannur, is a
+          vibrant community of tech enthusiasts and innovators. As a chapter of
+          the world's largest technical professional organization,
+          we are committed to fostering a culture of learning, collaboration, and excellence in the field of engineering and technology.
         </p>
       </div>
     </div>

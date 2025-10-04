@@ -90,7 +90,7 @@ export default function OrderSummary() {
               <p className="mb-4">
                 <span className="font-medium">Price:</span><br />
                 <span>College Students: <span style={{ fontFamily: "Arial" }}>&#8377;</span> 50</span><br />
-                <span>School Students: Free</span>
+                <span>School Students: Free ( should upload school ID card )</span>
 
               </p>
 
@@ -113,6 +113,9 @@ export default function OrderSummary() {
                 >
                   Upload Payment Screenshot:
                 </label>
+                <span className="text-sm text-white/70">
+                  (School students can upload their school ID card)
+                </span>
                 <input
                   type="file"
                   accept="image/*"
@@ -127,7 +130,7 @@ export default function OrderSummary() {
                   type="submit"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Processing..." : "Submit Payment"}
+                  {isSubmitting ? "Processing..." : "Submit"}
                 </button>
               </form>
             </div>

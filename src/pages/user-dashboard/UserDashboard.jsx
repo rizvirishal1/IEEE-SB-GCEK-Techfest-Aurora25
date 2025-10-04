@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import BGfromPoster from "../../assets/images/BGfromPoster.png";
+import styles from "./userdashboard.module.scss";
 
 export default function UserDashboard() {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ export default function UserDashboard() {
       ></div>
 
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center p-4">
-        <div className="bg-black/30 backdrop-blur-lg p-8 rounded-xl shadow-2xl w-full max-w-4xl text-white">
+        <div className={` ${styles.userDashboardContainer} bg-black/30 backdrop-blur-lg p-8 rounded-xl shadow-2xl w-full max-w-4xl text-white`}>
           {isLoading && <p className="text-xl text-center py-10">Loading...</p>}
           {!isLoading && !userData && (
             <p className="text-xl text-center py-10 text-red-400">
@@ -126,11 +127,10 @@ export default function UserDashboard() {
               </div>
 
               <hr className="border-white/50 my-6" />
-
               <h3 className="text-xl font-semibold mb-4">Tickets</h3>
 
               {/* Fest Ticket section visible for users who didnt buy the fest ticket */}
-              {!userData.EntryPassId && (
+              {!userData.entryPassId && (
                 <div className="p-4 bg-green-700/30 border border-green-500 rounded-lg flex flex-col items-start mb-6">
                   <p className="text-lg font-bold mb-3">
                     Entry Pass
