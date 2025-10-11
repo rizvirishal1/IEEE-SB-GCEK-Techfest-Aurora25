@@ -7,6 +7,7 @@ import Footer from "../../components/footer/Footer";
 import styles from "./home.module.scss";
 
 const EventHighlights = () => {
+  const navigate = useNavigate();
   return (
     <div
       className="w-full lg:h-screen lg:py-0 relative flex flex-col items-center justify-center py-12 px-4 bg-black bg-opacity-80 backdrop-blur-sm z-20"
@@ -25,7 +26,11 @@ const EventHighlights = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {eventhighlight.slice(0, 4).map((event) => (
-            <div key={event.id} className="flex flex-col items-center">
+            <div
+              key={event.id}
+              className="flex flex-col items-center cursor-pointer"
+              onClick={() => navigate(`/event-details/${event.id}`)}
+            >
               <div className={`${styles.highlightCard} bg-black/40 border-2 border-white/20 p-4 rounded-lg shadow-xl`}>
                 <div className="relative">
                   <img
@@ -96,7 +101,16 @@ export default function Home() {
           UNLEASH THE GLOW
         </p>
         <button
-          className="mt-8 px-8 py-3 sm:px-8 sm:py-3 text-white font-semibold rounded-full shadow-lg hover:bg-white/40 transition duration-300 backdrop-blur-sm border-solid border-2 border-white/20"
+          className="
+    mt-8 px-8 py-3 sm:px-8 sm:py-3 
+    bg-lime-400 text-gray-900 font-bold 
+    rounded-full 
+    shadow-[0_4px_0_0_#065f46]             /* 1. The thick 3D shadow (dark emerald green) */
+    hover:bg-lime-500 
+    active:shadow-none                      /* 2. Remove shadow when pressed */
+    active:translate-y-1                    /* 3. Move button down 1px when pressed */
+    transition-all duration-100 ease-in-out /* Smooth transition for the 'press' effect */
+  "
           onClick={() => navigate("/register")}
         >
           Register Now
