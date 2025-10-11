@@ -26,7 +26,13 @@ registerRouter.post('/', async (req, res) => {
         return res.status(400).json({ error: "Mobile number not verified" });
     }
 
-    const newUser = new User({ name, mobile, password, IEEEMemberId });
+    const newUser = new User({
+        name,
+        mobile,
+        password,
+        IEEEMemberId,
+        IEEEMemberStatus: IEEEMemberId ? "Verification Pending" : "Non-IEEE Member"
+    });
 
     try {
         await newUser.save();
