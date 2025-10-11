@@ -106,7 +106,7 @@ export default function OrderSummary() {
               {/* Price details for Entry Pass */}
               {
                 ticketDetails.type === "Entry Pass" && <div>
-                  <span>College Students: <span style={{ fontFamily: "Arial" }}>&#8377;</span> 50</span><br />
+                  <span>College Students: <span style={{ fontFamily: "Arial" }}>₹</span> 89</span><br />
                   <span>School Students: Free ( should upload school ID card )</span>
                 </div>
               }
@@ -120,6 +120,20 @@ export default function OrderSummary() {
                   </div>
                 )
               }
+
+              {/* Ticket details for entry pass */}
+              {ticketDetails.type === "Entry Pass" && <div className="mt-4 p-4 border border-white/40 rounded-md bg-white/10">
+                <h3 className="text-lg font-semibold mb-2">Entry Pass Includes :</h3>
+                <ul className="list-disc list-inside text-sm">
+
+                  <li>Technical Talk Session</li>
+                  <li>Technical Quiz</li>
+                  <li>Project Exhibitions Entry</li>
+                  <li>Certificate for talk session ( Worth KTU Activity Points )</li>
+                  <li>Certificate of participation for State Level Technical Quiz ( Worth KTU Activity Points )</li>
+
+                </ul>
+              </div>}
 
 
               <br />

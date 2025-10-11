@@ -4,6 +4,7 @@ import background from "../../assets/images/homeBG.jpg";
 import { useNavigate } from "react-router";
 import eventhighlight from "../../data/event.highlight.js";
 import Footer from "../../components/footer/Footer";
+import styles from "./home.module.scss";
 
 const EventHighlights = () => {
   return (
@@ -25,7 +26,7 @@ const EventHighlights = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {eventhighlight.slice(0, 4).map((event) => (
             <div key={event.id} className="flex flex-col items-center">
-              <div className="bg-black/40 border-2 border-white/20 p-4 rounded-lg shadow-xl">
+              <div className={`${styles.highlightCard} bg-black/40 border-2 border-white/20 p-4 rounded-lg shadow-xl`}>
                 <div className="relative">
                   <img
                     src={event.imageUrl}

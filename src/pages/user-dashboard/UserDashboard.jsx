@@ -180,35 +180,6 @@ export default function UserDashboard() {
               </div>
 
               <hr className="border-white/50 my-6" />
-
-              <p className="text-lg font-medium mb-3">
-                Event Tickets Purchased:
-              </p>
-
-              <div className="space-y-4">
-                {userData.eventTickets.length === 0 && (
-                  <p className="text-white/80 italic">
-                    No event tickets purchased yet.
-                  </p>
-                )}
-                {userData.eventTickets.length > 0 &&
-                  userData.eventTickets.map((ticket, index) => (
-                    <div
-                      key={index}
-                      className="eventTicket p-4 border border-white/30 rounded-lg bg-white/5"
-                    >
-                      <p className="font-semibold text-lg mb-1">
-                        Event Name: {events[ticket.eventId].title}
-                      </p>
-                      <p className="text-sm">
-                        Status:{" "}
-                        <span className="font-medium text-yellow-300">
-                          {ticket.purchaseStatus}
-                        </span>
-                      </p>
-                    </div>
-                  ))}
-              </div>
             </div>
           )}
         </div>

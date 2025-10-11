@@ -25,26 +25,9 @@ const EventDetails = () => {
               className="w-4/5 max-w-sm mb-6 rounded-lg"
             />
             <button
-              onClick={() => {
-                const authToken = localStorage.getItem("authToken");
-                if (!authToken) {
-                  navigate("/login");
-                  return;
-                }
-                navigate("/order-summary", {
-                  state: {
-                    ticket: {
-                      type: "Event Ticket",
-                      eventId: event.id,
-                      eventTitle: event.title,
-                      price: event.price,
-                      priceForIeeeMembers: event.priceForIeeeMembers
-                    },
-                  },
-                });
-              }}
+              disabled
               className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 mb-6">
-              BUY TICKET
+              TICKETS - SOLD OUT
             </button>
           </div>
 
@@ -60,10 +43,10 @@ const EventDetails = () => {
               <span className="font-semibold">Location:</span> {event?.venue}
             </p>
             <p className="mb-2">
-              <span className="font-semibold">Fee:</span> ₹{event?.price}
+              <span className="font-semibold">Fee:</span> {event?.price}
             </p>
             <p className="mb-2">
-              <span className="font-semibold">IEEE Members Fee:</span> ₹{event?.priceForIeeeMembers}
+              <span className="font-semibold">IEEE Members Fee:</span> {event?.priceForIeeeMembers}
             </p>
             <p className="mt-4 text-base">
               {event?.description}
@@ -77,26 +60,9 @@ const EventDetails = () => {
 
           {/* Register button for larger screens */}
           <button
-            onClick={() => {
-              const authToken = localStorage.getItem("authToken");
-              if (!authToken) {
-                navigate("/login");
-                return;
-              }
-              navigate("/order-summary", {
-                state: {
-                  ticket: {
-                    type: "Event Ticket",
-                    eventId: event.id,
-                    eventTitle: event.title,
-                    price: event.price,
-                    priceForIeeeMembers: event.priceForIeeeMembers
-                  },
-                },
-              });
-            }}
+            disabled
             className="hidden lg:block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 mt-8">
-            BUY TICKET
+            TICKETS - SOLD OUT
           </button>
         </div>
 
@@ -121,10 +87,10 @@ const EventDetails = () => {
               <span className="font-semibold">Location:</span> {event?.venue}
             </p>
             <p className="mb-2">
-              <span className="font-semibold">Fee:</span> ₹{event?.price}
+              <span className="font-semibold">Fee:</span> {event?.price}
             </p>
             <p className="mb-2">
-              <span className="font-semibold">IEEE Members Fee:</span> ₹{event?.priceForIeeeMembers}
+              <span className="font-semibold">IEEE Members Fee:</span> {event?.priceForIeeeMembers}
             </p>
           </div>
         </div>
