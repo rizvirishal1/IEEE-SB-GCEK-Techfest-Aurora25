@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
 import BGImg from "../../assets/images/BGfromPoster.png";
 import events from '../../data/events';
-import styles from "./eventdetails.module.scss";
 import { useNavigate } from 'react-router';
+import styles from "./eventdetails.module.scss";
 
 const EventDetails = () => {
   const navigate = useNavigate()
@@ -48,7 +48,7 @@ const EventDetails = () => {
             <p className="mb-2">
               <span className="font-semibold">IEEE Members Fee:</span> {event?.priceForIeeeMembers}
             </p>
-            <p className="mt-4 text-base">
+            <p className={`${styles.textForMobile} mt-4 text-base`}>
               {event?.description}
             </p>
           </div>
