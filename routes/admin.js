@@ -322,7 +322,7 @@ Yadunand: 98958 42152\n
 
             const message = `Dear ${user.name},\n
 Your Entry Pass purchase has been verified successfully.\n
-You can now attend the event.\n
+You can now join the WhatsApp group: ${process.env.WHATSAPP_GROUP_LINK}.\n
 Please contact the admins for further details.\n
 Ajay E. K. - 85929 36392\n
 Yadunand: 98958 42152\n
