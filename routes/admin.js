@@ -278,6 +278,9 @@ adminRouter.post('/verifyEntryPass/:ticketId', authenticateToken, async (req, re
             return res.status(404).json({ error: "Entry Pass not found" });
         }
         entryPass.purchaseStatus = status;
+        const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+        const user = await User.findById(entryPass.userMongoId);
+
         if (status === "Rejected" && reason) {
 
             if (entryPass.rejectedAt && Date.now() - entryPass.rejectedAt < 1000) {
@@ -286,19 +289,20 @@ adminRouter.post('/verifyEntryPass/:ticketId', authenticateToken, async (req, re
 
             entryPass.reasonForRejection = reason;
             entryPass.rejectedAt = new Date();
-            const user = await User.findById(entryPass.userMongoId);
+
             if (user) {
                 user.entryPassId = undefined;
                 await user.save();
             }
-            const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+
             if (user.mobile) {
 
                 const message = `Dear ${user.name},\n
 Your Entry Pass purchase was rejected.\n
 Reason: ${reason || "N/A"}\n
-Please contact the admin for further details.\n
+Please contact the admins for further details.\n
 Ajay E. K. - 85929 36392\n
+Yadunand: 98958 42152\n
 - IEEE Aurora Team`;
 
                 await client.messages.create({
@@ -308,6 +312,28 @@ Ajay E. K. - 85929 36392\n
                 });
 
             }
+        }
+        else {
+
+            if (entryPass.verifiedAt && Date.now() - entryPass.verifiedAt < 1000) {
+                return res.status(400).json({ error: "Too many verifications in a short time. Please wait before verifying again." });
+            }
+            entryPass.verifiedAt = new Date();
+
+            const message = `Dear ${user.name},\n
+Your Entry Pass purchase has been verified successfully.\n
+You can now attend the event.\n
+Please contact the admins for further details.\n
+Ajay E. K. - 85929 36392\n
+Yadunand: 98958 42152\n
+- IEEE Aurora Team`;
+
+            await client.messages.create({
+                body: message,
+                messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID,
+                to: "+91" + user.mobile,
+            });
+
         }
         await entryPass.save();
         return res.status(200).json({ message: "Entry Pass status updated successfully" });

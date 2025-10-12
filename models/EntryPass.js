@@ -29,6 +29,9 @@ const entryPassSchema = new mongoose.Schema({
     rejectedAt: {
         type: Date
     },
+    verifiedAt: {
+        type: Date
+    },
     paymentScreenshot: {
         type: String
     }
