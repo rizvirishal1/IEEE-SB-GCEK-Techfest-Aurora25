@@ -74,8 +74,8 @@ userRouter.post('/buy-ticket', authenticateToken, upload.single("paymentScreensh
             return res.status(200).json({ message: "Entry Pass purchased successfully" });
         }
 
-        // For Event Ticket
-        else if (type === "Event Ticket") {
+        // For competition Ticket
+        else if (type === "competition") {
 
             // extract parameters
             const eventId = req.body.eventId;
@@ -98,6 +98,7 @@ userRouter.post('/buy-ticket', authenticateToken, upload.single("paymentScreensh
                 userName: user.name,
                 mobile: user.mobile,
                 eventId: eventId,
+                eventName: eventTitle,
                 purchasedAt: new Date(),
                 purchaseStatus: "Verification Pending",
                 paymentScreenshot: screenshotUrl,
@@ -258,5 +259,19 @@ userRouter.post('/reset-password', async (req, res) => {
     }
 });
 
+//get user details
+userRouter.get('/details', authenticateToken, async (req, res) => {
+    try {
+        const userMongoId = res.user._id;
+        const user = await User.findById(userMongoId);
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        return res.status(200).json(user);
+    }
+    catch (err) {
+        return res.status(500).json({ error: "Server error" });
+    }
+});
 
 export default userRouter;

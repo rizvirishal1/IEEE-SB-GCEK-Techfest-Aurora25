@@ -18,6 +18,10 @@ const EventTicketSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    eventName: {
+        type: String,
+        required: true
+    },
     purchaseStatus: {
         type: String,
         enum: ["Rejected", "Verified", "Verification Pending"],
@@ -30,6 +34,9 @@ const EventTicketSchema = new mongoose.Schema({
         type: Date
     },
     purchasedAt: {
+        type: Date
+    },
+    verifiedAt: {
         type: Date
     },
     paymentScreenshot: {

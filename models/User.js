@@ -34,7 +34,8 @@ const userSchema = new mongoose.Schema({
     },
     eventTickets: [{
         eventId: { type: String },
-        eventTicketMongoId: { type: String },
+        eventName: { type: String },
+        eventTicketMongoId: { type: mongoose.Schema.Types.ObjectId, ref: "EventTicket" },
         purchaseStatus: { type: String, default: "Verification Pending" }
     }],
     entryPassId: {
