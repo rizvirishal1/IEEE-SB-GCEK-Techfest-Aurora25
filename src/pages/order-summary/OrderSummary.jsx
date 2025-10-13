@@ -12,6 +12,7 @@ export default function OrderSummary() {
   const navigate = useNavigate();
   const ticketDetails = location.state?.ticket || {};
 
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -28,8 +29,8 @@ export default function OrderSummary() {
     ticket.append("paymentScreenshot", paymentFile);
     ticket.append("type", ticketDetails.type);
     ticket.append("isEarlyBird", ticketDetails.isEarlyBird);
-    ticket.append("eventId", ticketDetails.eventId);
-    ticket.append("eventTitle", ticketDetails.eventTitle);
+    ticket.append("eventId", ticketDetails.id);
+    ticket.append("eventTitle", ticketDetails.title);
     ticket.append("price", ticketDetails.price);
     ticket.append("priceForIeeeMembers", ticketDetails.priceForIeeeMembers);
 
@@ -93,10 +94,10 @@ export default function OrderSummary() {
                 {ticketDetails.type}
               </p>
 
-              {/* Event Title if the Ticket Type is Event Ticket */}
-              {ticketDetails.type === "Event Ticket" && ticketDetails.eventId && (
+              {/* Event Title if the Ticket Type is competition */}
+              {ticketDetails.type === "competition" && ticketDetails.id && (
                 <p className="mb-2">
-                  <span className="font-medium">Event:</span> {ticketDetails.eventTitle}
+                  <span className="font-medium">Event:</span> {ticketDetails.title}
                 </p>
               )}
               <p className="mb-4">
@@ -111,12 +112,12 @@ export default function OrderSummary() {
                 </div>
               }
 
-              {/* Price details for Event Ticket */}
+              {/* Price details for competition Ticket */}
               {
-                ticketDetails.type === "Event Ticket" && ticketDetails.eventId && (
+                ticketDetails.type === "competition" && ticketDetails.id && (
                   <div>
-                    <span>IEEE Members: <span style={{ fontFamily: "Arial" }}>&#8377;</span> {ticketDetails.priceForIeeeMembers}</span><br />
-                    <span>Non-IEEE Members: <span style={{ fontFamily: "Arial" }}>&#8377;</span> {ticketDetails.price}</span>
+                    <span>IEEE Members: {ticketDetails.priceForIeeeMembers}</span><br />
+                    <span>Non-IEEE Members: {ticketDetails.price}</span>
                   </div>
                 )
               }

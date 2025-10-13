@@ -2,12 +2,55 @@ import { useParams } from 'react-router-dom';
 import BGImg from "../../assets/images/BGfromPoster.png";
 import events from '../../data/events';
 import { useNavigate } from 'react-router';
+import { use, useEffect } from 'react';
+import api from '../../api';
 import styles from "./eventdetails.module.scss";
+import { toast } from 'react-toastify';
+import { useState } from 'react';
 
 const EventDetails = () => {
   const navigate = useNavigate()
   const { id } = useParams();
   const event = events.find(event => event.id === id);
+  const [userData, setUserData] = useState(null);
+  const [isTicketBought, setIsTicketBought] = useState(false);
+
+  useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+    if (!authToken) {
+      return;
+    }
+    const fetchData = async () => {
+      try {
+        await api.get("/user/details", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        });
+        setUserData(response.data);
+        setIsTicketBought(response.data.eventTickets?.some(ticket => ticket.eventId === event.id));
+      }
+      catch (error) {
+        toast.error("Failed to fetch user data. Please try again.");
+        localStorage.removeItem("authToken");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+      }
+    }
+    fetchData();
+  }, [navigate]);
+
+
+
+  const handleTicketRegistration = (event) => {
+    if (!localStorage.getItem("authToken")) {
+      navigate("/login");
+      return;
+    }
+    navigate("/order-summary", { state: { ticket: event } });
+  }
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-8 flex items-center justify-center"
       style={{ backgroundImage: `url(${BGImg})`, backgroundSize: "cover", backgroundPosition: "center" }}>
@@ -25,9 +68,11 @@ const EventDetails = () => {
               className="w-4/5 max-w-sm mb-6 rounded-lg"
             />
             <button
-              disabled
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 mb-6">
-              TICKETS - SOLD OUT
+              disabled={event?.type === "workshop" || userData?.eventTickets?.some(ticket => ticket.eventId === event.id)}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 mb-6"
+              onClick={() => handleTicketRegistration(event)}
+            >
+              {event?.type === "competition" ? (isTicketBought ? "BOUGHT" : "REGISTER") : "TICKETS - SOLD OUT"}
             </button>
           </div>
 
@@ -69,10 +114,13 @@ const EventDetails = () => {
 
           {/* Register button for larger screens */}
           <button
-            disabled
-            className="hidden lg:block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 mt-8">
-            TICKETS - SOLD OUT
+            disabled={event?.type === "workshop"}
+            className="hidden lg:block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 mt-8"
+            onClick={() => handleTicketRegistration(event)}
+          >
+            {event?.type === "workshop" ? "TICKETS - SOLD OUT" : "REGISTER"}
           </button>
+
         </div>
 
         {/* Right Section (visible on larger screens) */}

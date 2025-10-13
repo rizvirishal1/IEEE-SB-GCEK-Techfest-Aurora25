@@ -180,6 +180,8 @@ export default function UserDashboard() {
               </div>
 
               <hr className="border-white/50 my-6" />
+              <h3 className="text-xl font-semibold mb-4">Registered Events</h3>
+
             </div>
           )}
         </div>
