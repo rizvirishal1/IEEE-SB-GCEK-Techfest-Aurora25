@@ -180,8 +180,37 @@ export default function UserDashboard() {
               </div>
 
               <hr className="border-white/50 my-6" />
-              <h3 className="text-xl font-semibold mb-4">Registered Events</h3>
-
+              <h3 className="text-xl font-semibold mb-4">Registered Events:</h3>
+              {userData.eventTickets && userData.eventTickets.length > 0 ? (
+                <ul className="space-y-4">
+                  {userData.eventTickets.map((ticket) => {
+                    const event = events.find((e) => e.id === ticket.eventId);
+                    return (
+                      <li key={ticket.eventId} className="p-4 bg-blue-700/30 border border-blue-500 rounded-lg">
+                        <p className="text-lg font-medium">
+                          Event: <span className="font-semibold">{event.title}</span>
+                        </p>
+                        <p className="ml-4">
+                          Price for IEEE Members: <span className="font-medium">{event.priceForIeeeMembers}</span>
+                        </p>
+                        <p className="ml-4">
+                          Price for Non-Members: <span className="font-medium">{event.price}</span>
+                        </p>
+                        <p className="ml-4">
+                          Purchase Status: <span className="font-medium text-yellow-300">{ticket.purchaseStatus}</span>
+                        </p>
+                        {ticket.reasonForRejection && (
+                          <p className="ml-4 text-red-400">
+                            Reason for Rejection: <span className="font-medium">{ticket.reasonForRejection}</span>
+                          </p>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <p className="text-gray-400">No registered events found.</p>
+              )}
             </div>
           )}
         </div>

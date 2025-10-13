@@ -22,7 +22,7 @@ const EventDetails = () => {
     }
     const fetchData = async () => {
       try {
-        await api.get("/user/details", {
+        const response = await api.get("/user/details", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
@@ -32,6 +32,7 @@ const EventDetails = () => {
       }
       catch (error) {
         toast.error("Failed to fetch user data. Please try again.");
+        console.error(error);
         localStorage.removeItem("authToken");
         setTimeout(() => {
           navigate("/login");
