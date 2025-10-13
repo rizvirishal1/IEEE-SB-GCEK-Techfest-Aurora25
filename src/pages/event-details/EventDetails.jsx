@@ -51,12 +51,21 @@ const EventDetails = () => {
             <p className={`${styles.textForMobile} mt-4 text-base`}>
               {event?.description}
             </p>
+            <br />
+            <p>For more details, contact the organizer:</p>
+            <p>Harikesh: 6238622195</p>
           </div>
 
           {/* Description for larger screens */}
-          <p className="hidden lg:block text-gray-300 text-lg leading-relaxed mt-4">
-            {event?.description}
-          </p>
+          <div className="hidden lg:block">
+            <p className="text-gray-300 text-lg leading-relaxed mt-4">
+              {event?.description}</p>
+            <br />
+            <p>For more details, contact the organizer:</p>
+            <p>Harikesh: 6238622195</p>
+          </div>
+
+
 
           {/* Register button for larger screens */}
           <button

@@ -42,7 +42,7 @@ With a prize pool worth ₹13,000, the competition rewards not just the fastest 
         price: "₹400 (per team)",
         priceForIeeeMembers: "₹400 (per team)",
         date: "October 19, 2025",
-        time: "01:00 PM - 03:00 PM",
+        time: "10:00 AM - 12:00 PM",
     },
     {
         id: "3",
@@ -56,7 +56,7 @@ Participants will work hands-on with real components, compete for prizes worth �
         price: "₹400 (per team)",
         priceForIeeeMembers: "₹400 (per team)",
         date: "October 18 - 19, 2025",
-        time: "09:00 AM - 11:00 AM",
+        time: "18th 01:00 PM - 19th 01:00 PM",
     },
     {
         id: "4",
@@ -69,10 +69,10 @@ Participants must design fully autonomous bots capable of sensing and navigating
 
 With a prize pool worth ₹18k, Robo Race rewards not only the fastest bots but also the most efficient and well-engineered designs. This is where creativity, precision, and teamwork come together to decide who truly deserves the title of champion.`,
         imageUrl: eventImg4,
-        price: "₹400 (per team)",
+        price: "₹600 (per team)",
         priceForIeeeMembers: "₹400 (per team)",
         date: "October 19, 2025",
-        time: "02:00 PM - 04:00 PM",
+        time: "09:00 AM - 12:00 PM",
     },
     {
         id: "5",
